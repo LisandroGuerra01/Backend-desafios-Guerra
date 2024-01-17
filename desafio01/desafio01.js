@@ -50,13 +50,15 @@ class ProductManager {
 // Agrego instancias a modo de ejemplo
 const newProduct = new ProductManager();
 
-newProduct.addProduct("Producto 1", "Descripción 1", 100, "Imagen 1", "0001", 10);
-newProduct.addProduct("Producto 2", "Descripción 2", 200, "Imagen 2", "0002", 20);
-newProduct.addProduct("Producto 3", "Descripción 3", 300, "Imagen 3", "0002", 30); //No lo agrega porque el prod ya existe
-newProduct.addProduct("Producto 4", "Descripción 4", 400, "Imagen 4", "0004", 40);
-newProduct.addProduct("Producto 5", "Descripción 5", 500, "Imagen 5", "0005", 50);
-
-
+console.log("Se llama al array vacío:");
 console.log(newProduct.getProducts());
-console.log(newProduct.getProductById(4));
-console.log(newProduct.getProductById(5));
+
+newProduct.addProduct("Producto prueba", "Este es un producto prueba", 200, "Imagen 1", "abc123", 25);
+console.log("Se llama al array con el primer producto cargado:");
+console.log(newProduct.getProducts());
+
+newProduct.addProduct("Producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25);
+console.log(newProduct.getProducts());
+
+console.log("Se filtra por ID:");
+console.log(newProduct.getProductById(1));
