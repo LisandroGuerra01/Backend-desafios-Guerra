@@ -8,6 +8,14 @@ class ProductManager {
     //Función para añadir producto
     async addProduct(product) {
         const products = await this.getProducts();
+        
+        // Verificar si el producto ya existe por su código
+        const existingProduct = products.find(p => p.code === product.code);
+        if (existingProduct) {
+            console.log(`El producto con código ${product.code} ya existe. No se puede agregar nuevamente.`);
+            return existingProduct;
+        }
+
         const lastProduct = products[products.length - 1];
         const newId = lastProduct ? lastProduct.id + 1 : 1;
         const newProduct = { ...product, id: newId };
@@ -70,7 +78,7 @@ class ProductManager {
     }
 }
 
-//Path: product.{json e instanciar el objeto
+//Path: product.json e instanciar el objeto
 const productManager = new ProductManager('./product.json');
 
 //Función para probar el CRUD
@@ -124,7 +132,7 @@ async function testCRUD() {
     }
 
     //Eliminar un producto
-    const deletedProductId = await productManager.deleteProduct(2);
+    const deletedProductId = await productManager.deleteProduct(11);
     if (!deletedProductId) {
         console.log('Producto no encontrado con ese ID');
     } else {
@@ -133,7 +141,6 @@ async function testCRUD() {
 
     //Consultar todos los productos después de eliminar uno
     console.log('Productos restantes: \n', await productManager.getProducts());
-
 }
 
 //Ejecuto la función
