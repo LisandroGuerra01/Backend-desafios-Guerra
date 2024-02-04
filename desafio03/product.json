@@ -1,0 +1,127 @@
+[
+  {
+    "title": "Producto actualizado",
+    "description": "Descripción del producto actualizado",
+    "price": 300,
+    "thumbnail": "XXXXXXXXXXXXXXXXXXXXXX",
+    "code": "abc123",
+    "stock": 10,
+    "id": 1
+  },
+  {
+    "title": "Producto 2",
+    "description": "Descripción del producto 2",
+    "price": 200,
+    "thumbnail": "XXXXXXXXXXXXXXXXXXXXXX",
+    "code": "abcd123",
+    "stock": 20,
+    "id": 2
+  },
+  {
+    "title": "Producto 2",
+    "description": "Descripción del producto 2",
+    "price": 200,
+    "thumbnail": "XXXXXXXXXXXXXXXXXXXXXX",
+    "code": "abcd123",
+    "stock": 20,
+    "id": 2
+  },
+  {
+    "title": "Producto 2",
+    "description": "Descripción del producto 2",
+    "price": 200,
+    "thumbnail": "XXXXXXXXXXXXXXXXXXXXXX",
+    "code": "abcd123",
+    "stock": 20,
+    "id": 2
+  }
+]    //Añadir producto
+const product1 = await productManager.addProduct({
+    title: 'Producto 1',
+    description: 'Descripción del producto 1',
+    price: 100,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abc123',
+    stock: 10,
+});
+
+const product2 = await productManager.addProduct({
+    title: 'Producto 2',
+    description: 'Descripción del producto 2',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abcd123',
+    stock: 20,
+});
+
+const product3 = await productManager.addProduct({
+    title: 'Producto 3',
+    description: 'Descripción del producto 3',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abcde123',
+    stock: 20,
+});
+
+const product4 = await productManager.addProduct({
+    title: 'Producto 4',
+    description: 'Descripción del producto 4',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abc456',
+    stock: 20,
+});
+
+const product5 = await productManager.addProduct({
+    title: 'Producto 5',
+    description: 'Descripción del producto 5',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abcd456',
+    stock: 20,
+});
+
+const product6 = await productManager.addProduct({
+    title: 'Producto 6',
+    description: 'Descripción del producto 6',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abcde456',
+    stock: 20,
+});
+
+const product7 = await productManager.addProduct({
+    title: 'Producto 7',
+    description: 'Descripción del producto 7',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abc789',
+    stock: 20,
+});
+
+const product8 = await productManager.addProduct({
+    title: 'Producto 8',
+    description: 'Descripción del producto 8',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abcd789',
+    stock: 20,
+});
+
+const product9 = await productManager.addProduct({
+    title: 'Producto 9',
+    description: 'Descripción del producto 9',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abcde789',
+    stock: 20,
+});
+
+const product10 = await productManager.addProduct({
+    title: 'Producto 10',
+    description: 'Descripción del producto 10',
+    price: 200,
+    thumbnail: 'XXXXXXXXXXXXXXXXXXXXXX',
+    code: 'abc10',
+    stock: 20,
+})

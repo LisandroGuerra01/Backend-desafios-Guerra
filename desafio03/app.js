@@ -1,12 +1,16 @@
-const express = require('express');
-const ProductManager = require('../desafio02/desafio02');
+import express from "express";
+import ProductManager from "./productManager.js";
+// import { Router } from "express";
+
+const productManager = new ProductManager('./product.json');
 
 const app = express();
-const port = 8080;
+const PORT = 8080;
 
-const productManager = new ProductManager('./desafio02/products.json');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/products', async (req, res) => {
+app.get('/api/products', async (req, res) => {
     try {
         const limit = req.query.limit;
         const products = await productManager.getProducts();
@@ -23,22 +27,22 @@ app.get('/products', async (req, res) => {
     }
 })
 
-app.get('/products/:id', async (req, res) => {
+app.get('/api/products/:pid', async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
-        const product = await productManager.getProductById(productId);
+        const { pid } = req.params;
+        const product = await productManager.getProductById(pid);
 
         if (!product) {
             res.status(404).send({ error: 'Product not found' });
-        } else {
-            res.json(product);
         }
+        res.json(product);
+
     } catch (error) {
         console.log(error);
         res.status(500).send({ error: 'Internal server error' });
     }
-});
+})
 
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+    })
