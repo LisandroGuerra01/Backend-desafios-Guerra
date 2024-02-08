@@ -1,7 +1,7 @@
 import express from 'express';
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
 import __dirname from './utils.js';
-import productRouter from './routes/products.router.js';
-import cartRouter from './routes/carts.router.js';
 
 //Crear app express y puerto
 const app = express();
@@ -12,11 +12,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 //Archivos de carpeta public
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/'));
 
 //Routes y endpoints de product y cart
-app.use('/api/products', productRouter);
-app.use('/api/carts', cartRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 
 
