@@ -14,7 +14,7 @@ class ProductManager {
         const existingProduct = products.find(p => p.code === product.code);
         if (existingProduct) {
             console.log(`El producto con código ${product.code} ya existe. No se puede agregar nuevamente.`);
-            return existingProduct;
+            return null;
         }
 
         const lastProduct = products[products.length - 1];
@@ -84,13 +84,25 @@ class ProductManager {
     //Método para eliminar producto
     async deleteProduct(id) {
         const products = await this.getProducts();
-        const index = products.findIndex(product => product.id === id);
-        if (index === -1) {
+        const product = products.find(product => product.id === id);
+        if (!product) {
             return null;
         }
-        products.splice(index, 1);
+        products.splice(products.indexOf(product), 1); // Elimina el producto con el mismo ID
         await this.#saveProducts(products);
         return id;
+    }
+
+    //Método para restar stock de producto en 1
+    async restStock(id) {
+        const products = await this.getProducts();
+        const product = products.find(p => p.id === id);
+        if (!product) {
+            return null;
+        }
+        product.stock--;
+        await this.#saveProducts(products);
+        return product;
     }
 
     async #saveProducts(products) {

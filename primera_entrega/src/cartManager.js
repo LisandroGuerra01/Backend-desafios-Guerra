@@ -1,7 +1,7 @@
 import fs from "fs";
-import ProductManage from "./productManager.js";
+import ProductManager from "./productManager.js";
 
-const productManager = new ProductManage('./product.json');
+const productManager = new ProductManager('./products.json');
 
 //Creo la clase CartManager para usar sus métodos
 class CartManager {
@@ -43,6 +43,11 @@ class CartManager {
         }
         const product = await productManager.getProductById(pid);
         if (!product) {
+            console.log("wtf?");
+            return null;
+        }
+        //Validar stock
+        if (product.stock === 0) {
             return null;
         }
         const existingProduct = cart.products.find(p => p.product === pid);
@@ -51,6 +56,7 @@ class CartManager {
         } else {
             existingProduct.quantity++;
         }
+        await productManager.restStock(pid); //Actualizar stock del producto en el archivo product.json
         await this.#saveCarts(carts);
         return cart;
     }

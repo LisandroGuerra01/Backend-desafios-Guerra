@@ -6,11 +6,11 @@ const router = Router();
 const cartManager = new CartManager('./carrito.json');
 
 //Endpoint para obtener carrito por ID
-router.get('/:id', async (req, res) => {
+router.get('/:cid', async (req, res) => {
     try {
         const { cid } =req.params;
 
-        const cart = await cartManager.getCartById(cid);
+        const cart = await cartManager.getCartById(parseInt(cid));
 
         if (cart) {
             res.status(200).send({ status: "success", payload: cart });
@@ -39,7 +39,6 @@ router.post('/', async (req, res) => {
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
-
         const cart = await cartManager.addProductToCart(parseInt(cid), parseInt(pid));
 
         if (cart) {
