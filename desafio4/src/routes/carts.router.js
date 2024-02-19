@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import CartManageer from '../CartManager.js';
+import CartManager from '../CartManager.js';
 import __dirname from '../utils.js';
 
 const router = Router();
 
 //Creamos instancia del CartManager para poder usarla en los endpoints
-const cartManager = new CartManageer(__dirname + '/carrito.json');
+const cartManager = new CartManager(__dirname + '/carrito.json');
 
 //Endpoint para obtener carrito por ID
 router.get('/:cid', async (req, res) => {
