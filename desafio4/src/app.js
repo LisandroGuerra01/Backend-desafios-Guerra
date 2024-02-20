@@ -58,6 +58,7 @@ socketServer.on('connection', (socket) => {
         socketServer.emit('product-list', productsPush);
 
         socket.broadcast.emit('message3', `El cliente con id ${socket.id} ha creado un producto`);
+        socket.emit('message3', `El cliente con id ${socket.id} ha creado un producto`);
 
         await productManager.addProduct(product);
     });
@@ -69,6 +70,7 @@ socketServer.on('connection', (socket) => {
         socketServer.emit('product-list', productsPush);
 
         socket.broadcast.emit('message4', `El cliente con id ${socket.id} ha eliminado un producto con ID ${id}`);
+        socket.emit('message4', `El cliente con id ${socket.id} ha eliminado un producto con ID ${id}`);
 
         await productManager.deleteProduct(id);
     });

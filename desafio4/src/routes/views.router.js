@@ -9,12 +9,12 @@ const productManager = new ProductManager(__dirname + "/products.json");
 router.get("/", async (req, res) => {
     const products = await productManager.getProducts();
     res.render("home", { products });
-})
+});
 
 //Endpoint para el form de carga de productos
-router.post("/realTimeProducts", async (req, res) => {
-    const product = await productManager.getProducts();
-    res.render("realTimeProducts", { product });
+router.get("/realtimeproducts", async (req, res) => {
+    const products = await productManager.getProducts();
+    res.render("realTimeProducts", { products });
 });
 
 export default router;
