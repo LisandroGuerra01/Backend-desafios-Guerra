@@ -39,7 +39,7 @@ app.listen(SERVER_PORT, () => {
 
 
 //Conexión a la db
-const DB_URL = 'mongodb+srv://lisandroguerra01:300naves@cluster0.bhewscs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const DB_URL = '';
 const connectMongoDB = async () => {
     try {
         await mongoose.connect(DB_URL);
