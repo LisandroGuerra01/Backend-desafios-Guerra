@@ -109,8 +109,14 @@ io.on('connection', (socket) => {
 })
 
 //Conexión a la db
-const URI = '';
-
-mongoose.connect(URI)
-    .then(() => console.log('DB is connected'))
-    .catch(error => console.error(error));
+const DB_URL = 'mongodb+srv://lisandroguerra01:300naves@cluster0.bhewscs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const connectMongoDB = async () => {
+    try {
+        await mongoose.connect(DB_URL);
+        console.log('Conectado a MongoDB');
+    } catch (error) {
+        console.error("No se pudo conectar con MongoDB " + error);
+        process.exit(); //Terminar el proceso si no se pudo conectar a la db
+    }
+}
+connectMongoDB();
