@@ -9,7 +9,7 @@ import viewsRouter from './routes/views.router.js';
 import { messagesModel } from './db/models/messages.model.js';
 import config from './config/config.js';
 
-
+//
 const app = express();
 
 //Preparar la config para recibir obj JSON
