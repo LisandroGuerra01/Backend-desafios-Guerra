@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 });
 
 
-// port para el servidor (8080) o el puerto definido en las variables de entorno (process.env.PORT)
+// Port para el servidor (8080) o el puerto definido en las variables de entorno (process.env.PORT)
 app.set("port", process.env.PORT || 8080);
 
 // escuchar en el puerto 8080 y mostrar un mensaje en la consola cuando el servidor esté inicializado (listening)
