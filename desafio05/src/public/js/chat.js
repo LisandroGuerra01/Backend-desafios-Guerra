@@ -1,48 +1,50 @@
-import { Swal } from 'sweetalert2';
 const socket = io()
 
-const btnSend = document.getElementById('send-message');
-const message = document.getElementById('message-area');
-const boxMessages = document.getElementById('chat-box');
-const tituloUsuario = document.getElementById('nombre-to-name');
-const divChat = document.getElementById('chat');
+const btnSend = document.getElementById("send-message");
+const message = document.getElementById("message-area");
+const boxMessages = document.getElementById("chat-box");
+const tituloUsuario = document.getElementById('nombre-to-name')
+const divChat = document.getElementById('chat')
 
 let usuario
 
-//Ingreso al chat - colocar usuario
+// ingreso al chat - colocar el usuario
 Swal.fire({
-    title: 'Bienvenido',
-    text: 'Ingresa tu nombre de usuario',
+    title: 'BIENVENIDO',
+    text: 'Ingresa tu usuario',
     input: 'text',
     inputValidator: (value) => {
         if (!value) {
-            return 'Necesitas ingresar un nombre de usuario'
+            return 'Necesitas ingresar un usuario'
         }
     },
 }).then((username) => {
     usuario = username.value
-    tituloUsuario.innerHTML = `Bienvenido ${usuario} al Chat`
+    tituloUsuario.innerText = `Bienvenido ${usuario} al Chat Grupal`
+    // evento del username ingresado
     socket.emit('usuarioNuevo', usuario)
-});
+    // inputMensaje.value = ''
+})
 
-btnSend.addEventListener('click', () => {
-    if (message.value == '') {
+btnSend.addEventListener("click", () => {
+    if (message.value == "") {
         message.focus();
     } else {
         boxMessages.innerHTML += `
-        <!-- MI MENSAJE -->
-    <div class="chat from-message">
+    <!-- MI MENSAJE -->
+<div class="chat from-message">
     <div class="detalles">
         <span>Tú</span>
-        <p>${message.value}</p>
+    <p>${message.value}</p>
     </div>
-    </div>
-        `;
+</div>
+    `;
         scrollBottom();
-        socket.emit('message', { user: usuario, msg: message.value });
+        socket.emit("message", { user: usuario, msg: message.value });
         message.value = null;
     }
 });
+
 
 // Chat Anterior
 socket.on('chat', (mensajes) => {
