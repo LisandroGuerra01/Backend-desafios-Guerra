@@ -30,7 +30,7 @@ app.use('/views', viewsRouter)
 app.use('/api/products', productRouter)
 app.use('/api/carts', cartsRouter)
 
-app.set("port", prodess.env.PORT || 8080);
+app.set("port", process.env.PORT || 8080);
 
 
 //Escuchar en puerto 8080
