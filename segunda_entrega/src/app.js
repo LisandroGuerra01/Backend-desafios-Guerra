@@ -1,5 +1,6 @@
 import express from 'express';
-import './db/dbConfig'
+import './db/dbConfig.js'
+import mongoose from 'mongoose';
 import productRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views.router.js'
@@ -7,6 +8,7 @@ import handlebars from 'express-handlebars'
 import __dirname from './utils.js'
 import { Server } from 'socket.io'
 import { messagesModel } from './db/models/messages.model.js'
+import dbConfig from './db/dbConfig.js';
 
 
 const app = express();
@@ -68,3 +70,10 @@ io.on('connection', (socket) => {
         socket.emit("chat", messages)
     })
 })
+
+//Conexión a la db
+const URI = dbConfig.mongo_uri;
+
+mongoose.connect(URI)
+    .then(() => console.log('DB is connected'))
+    .catch(error => console.error(error));

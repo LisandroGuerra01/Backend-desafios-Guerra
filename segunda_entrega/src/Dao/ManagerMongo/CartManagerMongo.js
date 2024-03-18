@@ -1,5 +1,5 @@
-import { cartsModel } from "../../db/models/carts.model";
-import { productsModel } from "../../db/models/products.model";
+import { cartsModel } from "../../db/models/carts.model.js";
+import { productsModel } from "../../db/models/products.model.js";
 
 export default class CartsManager {
 
@@ -23,15 +23,15 @@ export default class CartsManager {
         }
     }
 
-    async addProductToCart(cid, pid) {
+    async addProductToCart(cid, productId) {
         try {
             const cart = await cartsModel.findById(cid);
-            const prod = await productsModel.findById(pid);
+            const prod = await productsModel.findById(productId);
             if (!cart || !prod) {
                 return null;
             }
 
-            const product = cart.products.find(p => p.pid.toString() === pid);
+            const product = cart.products.find((product) => product.pid.toString() === productId);
             if (!product) {
                 console.log("first");
                 cart.products.push({ pid: productId, quantity: 1 });
