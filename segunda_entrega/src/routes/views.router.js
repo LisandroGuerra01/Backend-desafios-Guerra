@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import ProductManager from '../Dao/ManagerMongo/ProductManagerMongo.js';
 import CartManager from '../Dao/ManagerMongo/CartManagerMongo.js';
-import { cartsModel } from '../db/models/carts.model.js';
-import { productsModel } from '../db/models/products.model.js';
+
 
 const router = Router();
 
@@ -13,7 +12,7 @@ router.get('/', (req, res) => {
 //Endpoint para visualizar todos los productos
 router.get('/products', async (req, res) => {
     const productManager = new ProductManager();
-    const products = await productManager.getProducts(2);
+    const products = await productManager.getProducts(5);
 
     res.render('products', { products });
 });
@@ -22,7 +21,7 @@ router.get('/products', async (req, res) => {
 router.get('/products/page/:page', async (req, res) => {
     const page = req.params.page || 1;
     const productManager = new ProductManager();
-    const products = await productManager.getProducts(2, page);
+    const products = await productManager.getProducts(5, page);
 
     res.render('products', { products });
 });
