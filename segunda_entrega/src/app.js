@@ -21,7 +21,7 @@ app.use('/public', express.static(__dirname + '/public/html'))
 app.use(express.static(__dirname + '/public'))
 
 
-//Config de plantullas hbs
+//Config de plantillas hbs
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
