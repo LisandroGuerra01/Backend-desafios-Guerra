@@ -31,11 +31,16 @@ app.set('view engine', 'handlebars');
 
 app.use(cookieParser());
 
-const MONGO_URL = "MONGO_URI=mongodb+srv://lisandroguerra01:300naves@cluster0.bhewscs.mongodb.net/ecommerceEntrega2?retryWrites=true&w=majority&appName=Cluster0";
+//Conexión a la db
+const URI = dbConfig.mongo_uri;
+
+mongoose.connect(URI)
+    .then(() => console.log('DB is connected'))
+    .catch(error => console.error(error));
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: MONGO_URL,
+        mongoUrl: URI,
         mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
         ttl: 60 * 60 * 24 * 7
     }),
@@ -92,10 +97,3 @@ io.on('connection', (socket) => {
         socket.emit('chat', messages)
     })
 })
-
-//Conexión a la db
-const URI = dbConfig.mongo_uri;
-
-mongoose.connect(URI)
-    .then(() => console.log('DB is connected'))
-    .catch(error => console.error(error));
