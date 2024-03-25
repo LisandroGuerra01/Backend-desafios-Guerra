@@ -31,7 +31,7 @@ app.set('view engine', 'handlebars');
 
 app.use(cookieParser());
 
-const MONGO_URL = "MONGO_URI=mongodb+srv://lisandroguerra01:300naves@cluster0.bhewscs.mongodb.net/ecommerceEntrega2?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URL = "";
 
 app.use(session({
     store: MongoStore.create({
