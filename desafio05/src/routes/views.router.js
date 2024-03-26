@@ -1,7 +1,7 @@
 import { Router } from "express";
-import ProductManager from "../Dao/ManagerMongo/ProductManagerMongo";
-import CartsManager from "../Dao/ManagerMongo/CartManagerMongo";
-import UsersManager from "../Dao/ManagerMongo/UsersManagerMongo";
+import ProductManager from "../Dao/ManagerMongo/ProductManagerMongo.js";
+import CartsManager from "../Dao/ManagerMongo/CartManagerMongo.js";
+import UsersManager from "../Dao/ManagerMongo/UsersManagerMongo.js";
 import { auth, isLogged } from "../middlewares/auth.middleware.js";
 
 const router = Router();
@@ -41,7 +41,7 @@ router.get("/products/:pid", auth, async (req, res) => {
 
     const { _id, title, description, price, code, stock, category, thumbnail } = product;
 
-    res.render("product", { id: __dirname, title, description, price, code, stock, category, thumbnail });
+    res.render("product", { id: _id, title, description, price, code, stock, category, thumbnail });
 });
 
 //Endpoint para visualizar el carrito de compras
@@ -51,7 +51,7 @@ router.get("/carts/:cid", auth, async (req, res) => {
 
     const { products } = cart;
 
-    res.render("cart", { cart });
+    res.render("cart", { products });
 });
 
 //Endpoint para registro de usuario

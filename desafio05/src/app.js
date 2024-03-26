@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import FileStore from 'session-file-store';
 import session from 'express-session';
@@ -54,7 +55,7 @@ app.use(session({
 app.use('/views', viewsRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
-app.use('/api/users', usersRouter)
+app.use('/users', usersRouter)
 
 //Redirect a /views/login cuando se acceda a la ruta /
 app.get('/', (req, res) => {
