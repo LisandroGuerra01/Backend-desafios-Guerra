@@ -1,4 +1,4 @@
-<button onclick="location.href='/views/profile'">
+<button onclick="location.href='/profile'">
     Profile
 </button>
 
@@ -42,7 +42,7 @@
                         <td>{{stock}}</td>
                         <td>
                             <button>
-                                <a href="/views/products/{{_id}}">Ver producto</a>
+                                <a href="/products/{{_id}}">Ver producto</a>
                             </button>
                         </td>
                     </tr>
@@ -53,13 +53,13 @@
 
             {{#if products.hasPrevPage}}
             <button>
-                <a href="/views/products/page/{{products.prevPage}}">Anterior</a>
+                <a href="/products/page/{{products.prevPage}}">Anterior</a>
             </button>
             {{/if}}
 
             {{#if products.hasNextPage}}
             <button>
-                <a href="/views/products/page/{{products.nextPage}}">Siguiente</a>
+                <a href="/products/page/{{products.nextPage}}">Siguiente</a>
             </button>
             {{/if}}
 

@@ -63,7 +63,7 @@ app.use('/users', usersRouter)
 
 //Redirect a /views/login cuando se acceda a la ruta /
 app.get('/', (req, res) => {
-    res.redirect('/views/login');
+    res.redirect('/login');
 });
 
 app.set("port", process.env.PORT || 8080);
