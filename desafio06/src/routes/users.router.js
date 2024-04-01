@@ -1,22 +1,16 @@
 import { Router } from "express";
 import UsersManager from "../Dao/ManagerMongo/UsersManagerMongo.js";
+import passport from "passport";
 
 const router = Router();
 const usersManager = new UsersManager();
 
-router.post('/register', async (req, res) => {
-    try {
-        const user = req.body;
-        const newUser = await usersManager.createUser(req.body);
-        if (newUser) {
-            res.redirect('/views/login');
-        } else {
-            res.redirect('/views/errorRegister');
-        }
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
+//Register con passport
+router.post('/register', passport.authenticate('register', {
+    successRedirect: '/login',
+    failureRedirect: '/errorRegister',
+    passReqToCallback: true,
+}));
 
 router.post('/login', async (req, res) => {
     try {
@@ -34,9 +28,9 @@ router.post('/login', async (req, res) => {
                 req.session.isAdmin = false;
                 req.session.role = 'user';
             }
-            res.redirect('/views/products');
+            res.redirect('/products');
         } else {
-            res.redirect('/views/errorLogin');
+            res.redirect('/errorLogin');
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -48,9 +42,22 @@ router.get('/logout', (req, res) => {
         if (error) {
             console.log(error);
         } else {
-            res.redirect('/views/login');
+            res.redirect('/login');
         }
     })
+});
+
+//Register con passport Github Strategy
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+
+//Login con passport Github Strategy
+router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/errorRegister' }), (req, res) => {
+    req.session.email = req.user.email;
+    req.session.logged = true;
+    req.session.userId = req.user._id;
+    req.session.isAdmin = false;
+    req.session.role = 'user';
+    res.redirect('/products');
 });
 
 export default router;
