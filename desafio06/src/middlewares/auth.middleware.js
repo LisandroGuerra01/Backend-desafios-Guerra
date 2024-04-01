@@ -3,7 +3,7 @@ export const auth = async (req, res, next) => {
         if (req.session.logged) {
             next();
         } else {
-            res.redirect('/views/login');
+            res.redirect('/login');
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -13,7 +13,7 @@ export const auth = async (req, res, next) => {
 export const isLogged = async (req, res, next) => {
     try {
         if (req.session.logged) {
-            res.redirect('/views/profile');
+            res.redirect('/profile');
         } else {
             next();
         }

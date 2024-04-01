@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser';
 import dbConfig from './db/dbConfig.js';
 import apiRouter from './routes/api.router.js';
 import viewsRouter from './routes/views.router.js'
-import usersRouter from './routes/users.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
@@ -59,7 +58,6 @@ app.use(passport.session());
 //Rutas
 app.use('/', viewsRouter)
 app.use('/api', apiRouter)
-app.use('/users', usersRouter)
 
 //Redirect a /views/login cuando se acceda a la ruta /
 app.get('/', (req, res) => {

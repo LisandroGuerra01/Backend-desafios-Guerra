@@ -15,7 +15,7 @@ router.post('/register', passport.authenticate('register', {
 router.post('/login', async (req, res) => {
     try {
         const user = req.body;
-        const userLogged = await usersManager.loginUser(req.body);
+        const userLogged = await usersManager.loginUser(user);
         if (userLogged) {
             for (const key in user) {
                 req.session[key] = user[key];
@@ -48,10 +48,10 @@ router.get('/logout', (req, res) => {
 });
 
 //Register con passport Github Strategy
-router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+router.get('/github', passport.authenticate('Github', { scope: ['user:email'] }));
 
 //Login con passport Github Strategy
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/errorRegister' }), (req, res) => {
+router.get('/githubcallback', passport.authenticate('Github', { failureRedirect: '/errorRegister' }), (req, res) => {
     req.session.email = req.user.email;
     req.session.logged = true;
     req.session.userId = req.user._id;
