@@ -6,36 +6,25 @@ const router = Router();
 const usersManager = new UsersManager();
 
 //Register con passport
-router.post('/register', passport.authenticate('register', {
+router.post('/register', passport.authenticate('Register', {
     successRedirect: '/login',
     failureRedirect: '/errorRegister',
     passReqToCallback: true,
 }));
 
-router.post('/login', async (req, res) => {
-    try {
-        const user = req.body;
-        const userLogged = await usersManager.loginUser(user);
-        if (userLogged) {
-            for (const key in user) {
-                req.session[key] = user[key];
-            }
-            req.session.userId = userLogged._id;
-            req.session.logged = true;
-            if (userLogged.email === 'adminCoder@coder.com' && userLogged.password === 'adminCod3r123') {
-                req.session.isAdmin = true;
-            } else {
-                req.session.isAdmin = false;
-                req.session.role = 'user';
-            }
-            res.redirect('/products');
-        } else {
-            res.redirect('/errorLogin');
-        }
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+//Login
+router.post('/login', passport.authenticate('Login', { successRedirect: '/profile', failureRedirect: '/errorLogin' }), async (req, res) => {
+    const user = req.user;
+    if (!user) return res.status(401).send({ status: "error", error: "El usuario y la contraseña no coinciden!" });
+    req.session.user = {
+        name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
+        age: user.age
+    };
+    req.session.admin = true;
+    res.send({ status: "success", payload: req.session.user })
 });
+
 
 router.get('/logout', (req, res) => {
     req.session.destroy((error) => {
@@ -51,7 +40,7 @@ router.get('/logout', (req, res) => {
 router.get('/github', passport.authenticate('Github', { scope: ['user:email'] }));
 
 //Login con passport Github Strategy
-router.get('/githubcallback', passport.authenticate('Github', { failureRedirect: '/errorRegister' }), (req, res) => {
+router.get('/github/callback', passport.authenticate('Github', { failureRedirect: '/errorRegister' }), (req, res) => {
     req.session.email = req.user.email;
     req.session.logged = true;
     req.session.userId = req.user._id;

@@ -1,6 +1,6 @@
 export const auth = async (req, res, next) => {
     try {
-        if (req.session.logged) {
+        if (req.session.passport) {
             next();
         } else {
             res.redirect('/login');
@@ -12,7 +12,7 @@ export const auth = async (req, res, next) => {
 
 export const isLogged = async (req, res, next) => {
     try {
-        if (req.session.logged) {
+        if (req.session.passport) {
             res.redirect('/profile');
         } else {
             next();
