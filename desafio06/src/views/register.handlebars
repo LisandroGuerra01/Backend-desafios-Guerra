@@ -2,7 +2,7 @@
     Formulario de Registro
 </h1>
 
-<form action="/users/register" method="POST">
+<form action="/api/users/register" method="POST">
     <input type="text" name="first_name" id="first_name" placeholder="First Name" />
     <input type="text" name="last_name" id="last_name" placeholder="Last Name" />
     <input type="email" name="email" id="email" placeholder="Email" />
@@ -11,4 +11,8 @@
     <input type="submit" value="Register" />
 </form>
 
-<button type="button" onclick="location.href='/views/login'">Login</button>
+<h2>Register with Github</h2>
+<button type="button" onclick="location.href='/api/users/github'">Github</button>
+
+<h2>Go to login</h2>
+<button type="button" onclick="location.href='/login'">Login</button>

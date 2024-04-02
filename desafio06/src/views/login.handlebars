@@ -2,7 +2,7 @@
     Login
 </h1>
 
-<form action="/users/login" method="POST">
+<form action="/api/users/login" method="POST">
     <br />
     <label for="email">Email</label>
     <br />
@@ -18,7 +18,13 @@
 </form>
 
 <h2>
-    Registrarse
+    Login with Github
 </h2>
 
-<button type="button" onclick="location.href='/views/register'">Registrarse</button>
+<button type="button" onclick="location.href='/api/users/github/callback'">Github</button>
+
+<h2>
+    Go to register
+</h2>
+
+<button type="button" onclick="location.href='/register'">Register</button>

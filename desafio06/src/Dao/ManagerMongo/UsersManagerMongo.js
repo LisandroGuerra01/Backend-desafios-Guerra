@@ -1,29 +1,22 @@
 import { usersModel } from "../../db/models/users.model.js";
+import { hashPassword, comparePassword } from "../../bcrypt/bcrypt.js";
 
-export default class usersManager {
-    async createUser(user) {
-        const { email } = user;
-        try {
-            const existUser = await usersModel.findOne({ email });
-            if (existUser) {
-                return false;
-            }
-            const newUser = await usersModel.create(user);
-            return newUser;
-        } catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
-    }
-
+export default class UsersManager {
     async loginUser(user) {
-        const { email, password } = user;
+        // const { email, password } = user;
         try {
-            const userLogged = await usersModel.findOne({ email, password });
+            const { email, password } = user;
+            const userLogged = await usersModel.findOne({ email });
             if (!userLogged) {
                 return false;
+            } else {
+                const isMatch = comparePassword(password, userLogged.password);
+                if (isMatch) {
+                    return userLogged;
+                } else {
+                    return false;
+                }
             }
-            return userLogged;
         } catch (error) {
             console.log(error);
             throw new Error(error);

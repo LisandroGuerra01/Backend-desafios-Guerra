@@ -16,14 +16,20 @@ router.get("/chat", async (req, res) => {
 
 //Endpoint para visualizar todos los productos
 router.get("/products", auth, async (req, res) => {
-    const { userId, isAdmin, role } = req.session;
-    const userLogged = await usersManager.getUserById(userId);
-    const { first_name, last_name, email, age } = userLogged;
+
+    const { first_name, last_name, email, age, role } = req.user;
 
     const productManager = new ProductManager();
     const products = await productManager.getProducts(2);
 
-    res.render("products", { products, first_name, last_name, email, age, isAdmin, role });
+    res.render("products", {
+        products,
+        first_name,
+        last_name,
+        email,
+        age,
+        role,
+    });
 });
 
 //Endpoint para visualizar todos los productos con paginación
@@ -66,11 +72,8 @@ router.get("/login", isLogged, (req, res) => {
 
 //Endpoint para perfil de usuario
 router.get("/profile", auth, async (req, res) => {
-    const { userId, isAdmin, role } = req.session;
-    const userLoggerd = await usersManager.getUserById(userId);
-    const { first_name, last_name, email, age } = userLoggerd;
-
-    res.render("profile", { first_name, last_name, email, age, isAdmin, role });
+    const { first_name, last_name, email, age, role } = req.user;
+    res.render("profile", { first_name, last_name, email, age, role });
 });
 
 //Endpoint para error de registro

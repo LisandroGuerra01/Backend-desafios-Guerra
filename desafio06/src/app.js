@@ -5,14 +5,14 @@ import FileStore from 'session-file-store';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import dbConfig from './db/dbConfig.js';
-import productsRouter from './routes/products.router.js';
-import cartsRouter from './routes/carts.router.js'
+import apiRouter from './routes/api.router.js';
 import viewsRouter from './routes/views.router.js'
-import usersRouter from './routes/users.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import { messagesModel } from './db/models/messages.model.js';
+import passport from 'passport';
+import './passport/passportStrategies.js'
 
 const app = express();
 const FileStoreSession = FileStore(session);
@@ -51,15 +51,17 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }
 }));
 
+//Passport para autenticación de usuarios
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Rutas
-app.use('/views', viewsRouter)
-app.use('/api/products', productsRouter)
-app.use('/api/carts', cartsRouter)
-app.use('/users', usersRouter)
+app.use('/', viewsRouter)
+app.use('/api', apiRouter)
 
 //Redirect a /views/login cuando se acceda a la ruta /
 app.get('/', (req, res) => {
-    res.redirect('/views/login');
+    res.redirect('/login');
 });
 
 app.set("port", process.env.PORT || 8080);
