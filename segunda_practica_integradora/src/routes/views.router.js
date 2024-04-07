@@ -2,7 +2,7 @@ import { Router } from "express";
 import ProductManager from "../Dao/ManagerMongo/ProductManagerMongo.js";
 import CartsManager from "../Dao/ManagerMongo/CartManagerMongo.js";
 import UsersManager from "../Dao/ManagerMongo/UsersManagerMongo.js";
-import { auth, isLogged } from "../middlewares/auth.middleware.js";
+import { auth, isLogged, jwtAuth, jwtAuthCookie } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 const usersManager = new UsersManager();
@@ -15,7 +15,7 @@ router.get("/chat", async (req, res) => {
 });
 
 //Endpoint para visualizar todos los productos
-router.get("/products", auth, async (req, res) => {
+router.get("/products", jwtAuthCookie, async (req, res) => {
 
     const { first_name, last_name, email, age, role } = req.user;
 
@@ -33,7 +33,9 @@ router.get("/products", auth, async (req, res) => {
 });
 
 //Endpoint para visualizar todos los productos con paginación
-router.get("/products/page/:page", auth, async (req, res) => {
+router.get("/products/page/:page", jwtAuthCookie, async (req, res) => {
+    const page = req.params.page || 1;
+
     const productManager = new ProductManager();
     const products = await productManager.getProducts(2, page);
 
@@ -41,7 +43,7 @@ router.get("/products/page/:page", auth, async (req, res) => {
 });
 
 //Endpoint para visualizar un producto en particular
-router.get("/products/:pid", auth, async (req, res) => {
+router.get("/products/:pid", jwtAuthCookie, async (req, res) => {
     const productManager = new ProductManager();
     const product = await productManager.getProductById(req.params.pid);
 
@@ -51,7 +53,7 @@ router.get("/products/:pid", auth, async (req, res) => {
 });
 
 //Endpoint para visualizar el carrito de compras
-router.get("/carts/:cid", auth, async (req, res) => {
+router.get("/carts/:cid", async (req, res) => {
     const cartManager = new CartsManager();
     const cart = await cartManager.getCartById(req.params.cid);
 
@@ -71,7 +73,7 @@ router.get("/login", isLogged, (req, res) => {
 });
 
 //Endpoint para perfil de usuario
-router.get("/profile", auth, async (req, res) => {
+router.get("/profile", jwtAuthCookie, async (req, res) => {
     const { first_name, last_name, email, age, role } = req.user;
     res.render("profile", { first_name, last_name, email, age, role });
 });
