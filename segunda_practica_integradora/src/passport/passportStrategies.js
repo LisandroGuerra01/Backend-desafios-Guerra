@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { usersModel } from "../db/models/users.model.js";
 import { hashPassword, comparePassword } from "../bcrypt/bcrypt.js";
+import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 
 
 //Configurar passport para usar una estrategia local (para autenticar usuarios con email y contraseña)
@@ -19,7 +20,7 @@ passport.use(
                 const user = await usersModel.findOne({ email });
                 if (user) {
                     return done(null, false, {
-                        message: "Email already registered",
+                        message: "El email ya se encuentra registrado para otra cuenta",
                     });
                 }
                 const newUser = new usersModel({
@@ -48,12 +49,11 @@ passport.use(
         },
         async (username, password, done) => {
             const user = await usersModel.findOne({ email: username });
-            // console.log("CONSOLELOG!: " + user);
             if (!user) {
-                return done(null, false, { message: "Incorrect email" });
+                return done(null, false, { message: "Email incorrecto" });
             }
             if (!(comparePassword(password, user.password))) {
-                return done(null, false, { message: "Incorrect password" });
+                return done(null, false, { message: "Contraseña incorrecta" });
             }
             return done(null, user);
 
@@ -87,6 +87,30 @@ passport.use(
         }
     )
 );
+
+//Secret key
+const secret = "Secretkey";
+const { fromExtractors, fromAuthHeaderAsBearerToken } = ExtractJwt;
+
+//Configurar passport para usar una estrategia con JWT (para autenticar usuarios con JWT)
+passport.use(
+    "current",
+    new JWTStrategy(
+        {
+            jwtFromRequest: fromExtractors([(req) => req.cookies.token, fromAuthHeaderAsBearerToken()]),
+            secretOrKey: secret,
+        },
+        async (jwtPayload, done) => {
+            try {
+                const user = await usersModel.findById(jwtPayload.id);
+                if (!user) {
+                    return done(null, false);
+                }
+                return done(null, user);
+            } catch (error) {
+                return done(error);
+            }
+        }))
 
 //Serializar el usuario para almacenarlo en la sesión
 passport.serializeUser((user, done) => {
