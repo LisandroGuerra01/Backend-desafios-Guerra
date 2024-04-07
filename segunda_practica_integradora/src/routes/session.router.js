@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { jwtAuthCookie } from '../middlewares/auth.middleware';
+import { jwtAuthCookie } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import UsersManager from "../Dao/ManagerMongo/UsersManagerMongo.js";
 import passport from "passport";
-import { generateToken } from "../utils/jwt.js";
+import { generateToken } from "../jwt/jwt.js";
 
 const router = Router();
 const usersManager = new UsersManager();
