@@ -12,9 +12,9 @@ export default class CartsManager {
         }
     }
 
+    //Busco el carrito por id y devuelvo con productos populados
     async getCartById(id) {
         try {
-            //Busco el carrito por id y devuelvo con productos populados
             const cart = await cartsModel.findOne({ _id: id });
             return cart;
         } catch (error) {
