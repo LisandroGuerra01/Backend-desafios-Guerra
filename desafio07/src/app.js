@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
     res.redirect('/login');
 });
 
-app.set("port", PORT || 8080);
+app.set("port", PORT || 9090);
 
 const httpServer = app.listen(app.get("port"), () => {
     console.log('Servidor iniciado en el puerto: ', app.get("port"));
