@@ -19,7 +19,7 @@ export const loginUser = async (user) => {
             return { token, userLogged };
         }
 
-        const userLogged = jawait usersManagerj.getUserByEmail(email);
+        const userLogged = await usersManager.getUserByEmail(email);
         if (!userLogged) {
             return false;
         } else {
