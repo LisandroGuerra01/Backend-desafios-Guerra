@@ -8,7 +8,7 @@ const ADMIN_PASSWORD = config.ADMIN_PASSWORD;
 
 const usersManager = new UsersManager();
 
-//Exportamos la funcion para loguear al usuario
+//Exportamos la funcion que se encarga de loguear al usuario
 export const loginUser = async (user) => {
     try {
         const { email, password } = user;
@@ -35,4 +35,4 @@ export const loginUser = async (user) => {
         console.log(error);
         throw new Error(error);
     }
-}    
+}

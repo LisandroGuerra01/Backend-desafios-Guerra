@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 // Secret key
-const secret = "secretKey";
+const secret = "Secretkey";
 
 //Genera un token con la información del usuario
 export const generateToken = (user) => {
