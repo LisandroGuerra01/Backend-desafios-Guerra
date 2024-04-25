@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import {loginUsers} from '../controllers/users.controller.js';
+import { loginUsers } from '../controllers/users.controller.js';
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.get('/loginpass', passport.authenticate('current', { session: false }), (
 //Endpoint para desloguear usuario
 router.get('/logout', (req, res) => {
     res.clearCookie('token');
-    res.session.destroy((error) => {
+    req.session.destroy((error) => {
         if (error) {
             console.log(error);
         } else {
@@ -35,9 +35,7 @@ router.get('/logout', (req, res) => {
 router.get('/github', passport.authenticate('Github', { scope: ['user:email'] }));
 
 //Endpoint para callback de github strategy
-router.get('/github/callback', passport.authenticate('Github', {
-    failureRedirect: '/errorRegister',
-}), (req, res) => {
+router.get('/github/callback', passport.authenticate('Github', { failureRedirect: '/errorRegister' }), (req, res) => {
     req.session.email = req.user.email;
     req.session.logged = true;
     req.session.userId = req.user._id;

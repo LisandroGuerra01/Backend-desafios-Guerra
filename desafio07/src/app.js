@@ -35,7 +35,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
 app.use(session({
-    store: new MongoStore.create({
+    store: MongoStore.create({
         mongoUrl: URI,
     }),
     resave: false,
@@ -61,7 +61,7 @@ const httpServer = app.listen(app.get("port"), () => {
     console.log(`http://localhost:${app.get("port")}`);
 });
 
-// websocket
+//Websocket
 
 const io = new Server(httpServer)
 

@@ -1,4 +1,4 @@
-import jwt, { decode } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 const secret = 'Secretkey';
 
@@ -35,10 +35,10 @@ export const jwtAuth = async (req, res, next) => {
         const token = authHeader?.split(' ')[1];
         const decoded = jwt.verify(token, secret);
         if (!decoded) {
-            res.status(401).json({ error: "Token inválido" });
+            res.status(401).json({ error: "Invalid token" });
         }
         req.user = decoded;
-        console.log("Decoded:", decoded);
+        console.log("DECODED:", decoded);
         next();
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -54,9 +54,9 @@ export const jwtAuthCookie = async (req, res, next) => {
             res.status(401).json({ error: "Invalid token" });
         }
         req.user = decoded;
-        console.log("Decoded: ", decoded);
-        console.log("req.user: ", req.user);
-        next()
+        console.log("DECODED:", decoded);
+        console.log("REQ.USER:", req.user);
+        next();
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

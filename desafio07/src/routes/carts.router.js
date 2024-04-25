@@ -7,7 +7,7 @@ import {
     deleteOneProductFromCart,
     deleteAllProductsFromCart,
     updateAllProductsFromCart,
-    updateProductQuantityFromCart
+    updateAllProductsQaFromCart
 } from '../controllers/carts.controller.js';
 
 const router = Router();
@@ -18,6 +18,6 @@ router.post('/:cid/product/:pid', addOneProductToCart);
 router.delete('/:cid/product/:pid', deleteOneProductFromCart);
 router.delete('/:cid', deleteAllProductsFromCart);
 router.put('/:cid', updateAllProductsFromCart);
-router.put('/:cid/product/:pid', updateProductQuantityFromCart);
+router.put('/:cid/product/:pid', updateAllProductsQaFromCart);
 
 export default router;
