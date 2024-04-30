@@ -1,6 +1,11 @@
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config(
+//     {
+//     path: environment === "production" ? "./src/config/.env.production" : "./src/config/.env.development"
+// }
+);
+
 
 export default {
     MONGO_ATLAS_URL: process.env.MONGO_ATLAS_URL,
