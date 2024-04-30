@@ -12,7 +12,7 @@ router.post('/register', passport.authenticate('Register', {
 }));
 
 //Endpoint para loguear un usuario
-router.get('/login', loginUsers);
+router.post('/login', loginUsers);
 
 //Endpoint para extraer usuario de la sesión actual
 router.get('/loginpass', passport.authenticate('current', { session: false }), (req, res) => {
