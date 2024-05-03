@@ -68,13 +68,13 @@ class UsersController {
     async logoutUsers(req, res) {
         try {
             res.clearCookie("token");
-            res.status(200).json("Logout ok");
+            res.status(200).json("Logout OK");
         } catch (error) {
             res.status(400).json(error);
         }
     }
 
-    async currentUsers (req, res) {
+    async currentUsers(req, res) {
         try {
             const tokenUser = req.cookies.token;
             const result = await usersService.current(tokenUser);
@@ -83,6 +83,7 @@ class UsersController {
             res.status(400).json(error);
         }
     }
+
 }
 
 const usersController = new UsersController();

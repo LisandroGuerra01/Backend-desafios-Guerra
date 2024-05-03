@@ -4,7 +4,7 @@ import { generateToken, verifyToken } from '../utils/jwt.utils.js';
 import { UsersDTO, UsersViewDTO } from '../dal/dtos/users.dto.js';
 import config from '../config/config.js';
 
-class usersService {
+class UsersService {
     async findAll() {
         try {
             const result = await usersMongo.findAll();
@@ -101,6 +101,6 @@ class usersService {
     }
 }
 
-const usersService = new usersService();
+const usersService = new UsersService();
 
 export default usersService;

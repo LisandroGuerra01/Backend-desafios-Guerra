@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import {Command} from 'commander';
+import { Command } from 'commander';
 
 const program = new Command(); //Crea la instancia de comandos de commander.
 
@@ -15,7 +15,7 @@ console.log("Persistence Mode Option: ", program.opts().persist);
 
 const environment = program.opts().mode;
 dotenv.config({
-    path:environment==="prod"?"./src/config/.env.production":"./src/config/.env.development"
+    path: environment === "prod" ? "./src/config/.env.production" : "./src/config/.env.development"
 });
 
 export default {

@@ -3,7 +3,7 @@ import config from '../config/config.js';
 
 const SECRETKEY = config.secretKey;
 
-export const generateTken = (user) => {
+export const generateToken = (user) => {
     const data = {
         id: user._id,
         name: user.name,
