@@ -15,7 +15,7 @@ const businessSchema = new mongoose.Schema({
     phone: {
         type: Number,
         min: 3,
-        max: 50,
+        max: 50000000000000,
     },
     email: {
         type: String,

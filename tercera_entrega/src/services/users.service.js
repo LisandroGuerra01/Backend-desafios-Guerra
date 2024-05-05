@@ -45,6 +45,15 @@ class UsersService {
         }
     }
 
+    async delete(id) {
+        try {
+            const result = await usersMongo.delete(id);
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }
+
     async deleteSoft(id) {
         try {
             const result = await usersMongo.deleteSoft(id);
