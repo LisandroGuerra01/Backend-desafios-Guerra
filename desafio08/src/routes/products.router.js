@@ -10,5 +10,6 @@ router.post('/', verifyTokenAdmin, productsController.createProducts);
 router.put('/:id', verifyTokenAdmin, productsController.updateProducts);
 router.delete('/:id', verifyTokenAdmin, productsController.deleteProducts);
 router.delete('/soft/:id', verifyTokenAdmin, productsController.deleteSoftProducts)
+router.get("/mocks/mockingproducts", productsController.findAllProductsMocks);
 
 export default router;
