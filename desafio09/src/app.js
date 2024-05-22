@@ -5,9 +5,12 @@ import cookieParser from 'cookie-parser';
 import apiRouter from './routes/api.router.js';
 import compression from 'express-compression';
 import { errorMiddleware } from './middlewares/error.middleware.js';
+import { logger } from './utils/logger.utils.js';
 
 
 const app = express();
+const NODE_ENV = config.node_env
+const log = logger(NODE_ENV);
 
 app.use(compression());
 
@@ -24,5 +27,6 @@ app.use(errorMiddleware);
 const PORT = config.port;
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    // console.log(`Server is running on port ${PORT}`);
+    log.info(`Server is running on port ${PORT}`);
 });
