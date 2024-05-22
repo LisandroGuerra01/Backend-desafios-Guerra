@@ -28,7 +28,7 @@ const developmentLogger = winston.createLogger({
         new winston.transports.Console({
             level: 'debug',
             format: winston.format.combine(
-                winston.format.colorize(),
+                winston.format.colorize({ colors }),
                 winston.format.simple()
             )
         })
@@ -38,12 +38,12 @@ const developmentLogger = winston.createLogger({
 //Crear el logger de produccion
 const productionLogger = winston.createLogger({
     levels,
-    format: winston.format.simple(),
+    // format: winston.format.simple(),
     transports: [
         new winston.transports.Console({
             level: 'info',
             format: winston.format.combine(
-                winston.format.colorize(),
+                winston.format.colorize({ colors }),
                 winston.format.simple()
             )
         }),
