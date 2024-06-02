@@ -13,5 +13,6 @@ router.delete("/soft/:id", usersController.deleteSoftUsers);
 router.post("/login", usersController.loginUsers);
 router.post("/logout", usersController.logoutUsers);
 router.post("/current", verifyTokenAuth, usersController.currentUsers);
+router.post("/forgot-password", usersController.forgotPasswordUsers);
 
 export default router;
