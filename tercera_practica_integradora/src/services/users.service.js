@@ -1,8 +1,9 @@
 import usersMongo from '../dal/daos/usersDaos/usersMongo.js';
 import { hashData, compareData } from '../utils/bcrypt.utils.js';
-import { generateToken, verifyToken } from '../utils/jwt.utils.js';
+import { generateToken, verifyToken, generateTokenResetPassword, verifyTokenResetPassword, decodeTokenResetPassword } from '../utils/jwt.utils.js';
 import { UsersDTO, UsersViewDTO } from '../dal/dtos/users.dto.js';
 import config from '../config/config.js';
+import emailService from '../utils/emailService.utils.js';
 
 class UsersService {
     async findAll() {
