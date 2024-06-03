@@ -123,7 +123,7 @@ class UsersService {
                     <a href="${url}">siguiente enlace:</a>
                     <p>Si no has solicitado recuperar tu contraseña, puedes ignorar este correo electrónico.</p>`
                 }
-                const emailResult = await emailService.seendEmail(emailBody.to, emailBody.subject, emailBody.html);
+                const emailResult = await emailService.sendEmail(emailBody.to, emailBody.subject, emailBody.html);
                 return emailResult;
             }
             return null;
