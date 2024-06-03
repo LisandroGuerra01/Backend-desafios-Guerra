@@ -46,5 +46,6 @@ export default {
     mailing_user: process.env.MAILING_USER,
     mailing_password: process.env.MAILING_PASSWORD,
     mailing_service: process.env.MAILING_SERVICE,
+    mailing_port: process.env.MAILING_PORT,
     url_frontend: process.env.URL_FRONTEND
 }

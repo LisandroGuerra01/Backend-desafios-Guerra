@@ -109,6 +109,80 @@ class UsersService {
             return error;
         }
     }
+
+    async forgotPassword(email) {
+        try {
+            const result = await usersMongo.findByField('email', email);
+            if (result) {
+                const token = generateTokenResetPassword(result[0]);
+                const url = `${config.url_frontend}/reset-password/${token}`;
+                const emailBody = {
+                    to: email,
+                    subject: 'Recuperación de contraseña',
+                    html: `<p>Hola, has solicitado recuperar tu contraseña. Para continuar, haz click en el </p>
+                    <a href="${url}">siguiente enlace:</a>
+                    <p>Si no has solicitado recuperar tu contraseña, puedes ignorar este correo electrónico.</p>`
+                }
+                const emailResult = await emailService.seendEmail(emailBody.to, emailBody.subject, emailBody.html);
+                return emailResult;
+            }
+            return null;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async validateToken(token) {
+        try {
+            const result = verifyTokenResetPassword(token);
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async resetPassword(data) {
+        try {
+            const { token, password } = data;
+
+            //Verificar que el token sea valido y que no haya expirado
+            const isValid = verifyTokenResetPassword(token);
+            if (!isValid) {
+                return null;
+            }
+            const { id } = decodeTokenResetPassword(token);
+            const hashPassword = await hashData(password);
+
+            //Verificar que la contraseña no sea igual a la anterior
+            const user = await usersMongo.findById(id);
+            const { password: hashPasswordOld } = user;
+            const isMatch = await compareData(hashPassword, hashPasswordOld);
+            if (isMatch) {
+                return null;
+            }
+            const result = await usersMongo.update(id, { password: hashPassword });
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async changeRole(id) {
+        try {
+            const result = await usersMongo.findById(id);
+            const { role } = result;
+            let newRole = "";
+            if (role === "user") {
+                newRole = "premium";
+            } else {
+                newRole = "user";
+            }
+            const resultUpdate = await usersMongo.update(id, { role: newRole });
+            return resultUpdate;
+        } catch (error) {
+            return error;
+        }
+    }
 }
 
 const usersService = new UsersService();
