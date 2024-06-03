@@ -23,7 +23,8 @@ class ProductsController {
 
     async createProducts(req, res) {
         try {
-            const result = await productsService.create(req.body);
+            const tokenCokie = req.cookies.token;
+            const result = await productsService.create(req.body, tokenCokie);
             res.status(201).json(result);
         } catch (error) {
             res.status(400).json(error);
@@ -32,7 +33,8 @@ class ProductsController {
 
     async updateProducts(req, res) {
         try {
-            const result = await productsService.update(req.params.id, req.body);
+            const tokenCokie = req.cookies.token;
+            const result = await productsService.update(req.params.id, req.body, tokenCokie);
             res.status(200).json(result);
         } catch (error) {
             res.status(400).json(error);
