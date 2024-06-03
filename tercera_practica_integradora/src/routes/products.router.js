@@ -9,7 +9,7 @@ router.get('/:id', productsController.findProductsById);
 router.post('/', verifyTokenAdminPremium, productsController.createProducts);
 router.put('/:id', verifyTokenAdminPremium, productsController.updateProducts);
 router.delete('/:id', verifyTokenAdminPremium, productsController.deleteProducts);
-router.delete('/soft/:id', verifyTokenAdminPremium, productsController.deleteSoftProducts)
+router.delete('/soft/:id', verifyTokenAdminPremium, productsController.deleteSoftProducts);
 router.get("/mocks/mockingproducts", productsController.findAllProductsMocks);
 
 export default router;

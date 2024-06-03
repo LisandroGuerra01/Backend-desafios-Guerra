@@ -1,6 +1,5 @@
 import mailer from 'nodemailer';
 import config from '../config/config.js';
-import { message } from 'antd';
 
 class EmailService {
     constructor() {
