@@ -47,3 +47,20 @@ info: This is an info message
 warn: This is a warning message
 error: This is an error message
 info: Request processed successfully
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}
+{"level":"info","message":"MongoDB connected"}

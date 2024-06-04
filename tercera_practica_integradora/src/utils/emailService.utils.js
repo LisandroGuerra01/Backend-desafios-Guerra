@@ -1,11 +1,11 @@
 import mailer from 'nodemailer';
 import config from '../config/config.js';
-import { message } from 'antd';
 
 class EmailService {
     constructor() {
         this.transporter = mailer.createTransport({
             service: config.mailing_service,
+            port: config.mailing_port,
             auth: {
                 user: config.mailing_user,
                 pass: config.mailing_password

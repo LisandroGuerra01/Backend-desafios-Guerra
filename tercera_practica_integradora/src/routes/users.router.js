@@ -14,5 +14,8 @@ router.post("/login", usersController.loginUsers);
 router.post("/logout", usersController.logoutUsers);
 router.post("/current", verifyTokenAuth, usersController.currentUsers);
 router.post("/forgot-password", usersController.forgotPasswordUsers);
+router.get("/reset-password/:token", usersController.validateResetPasswordToken);
+router.post("/reset-password", usersController.resetPasswordUsers);
+router.post('/premium/:uid', usersController.premiumUserRole);
 
 export default router;

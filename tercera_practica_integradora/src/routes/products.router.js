@@ -1,15 +1,15 @@
 import productsController from '../controllers/products.controller.js';
 import { Router } from 'express';
-import { verifyTokenAdmin } from '../middlewares/auth.middleware.js';
+import { verifyTokenAdminPremium } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
 router.get('/', productsController.findAllProducts);
 router.get('/:id', productsController.findProductsById);
-router.post('/', verifyTokenAdmin, productsController.createProducts);
-router.put('/:id', verifyTokenAdmin, productsController.updateProducts);
-router.delete('/:id', verifyTokenAdmin, productsController.deleteProducts);
-router.delete('/soft/:id', verifyTokenAdmin, productsController.deleteSoftProducts)
+router.post('/', verifyTokenAdminPremium, productsController.createProducts);
+router.put('/:id', verifyTokenAdminPremium, productsController.updateProducts);
+router.delete('/:id', verifyTokenAdminPremium, productsController.deleteProducts);
+router.delete('/soft/:id', verifyTokenAdminPremium, productsController.deleteSoftProducts);
 router.get("/mocks/mockingproducts", productsController.findAllProductsMocks);
 
 export default router;
