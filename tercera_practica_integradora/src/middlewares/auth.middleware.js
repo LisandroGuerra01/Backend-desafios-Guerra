@@ -53,8 +53,11 @@ export const verifyTokenUser = (req, res, next) => {
     try {
         const token = req.cookies.token;
         const decoded = verifyToken(token);
-        if (!decoded || decoded.role !== "user") {
+        if (!decoded) {
             return res.status(401).json("Unauthorized")
+        }
+        if (decoded.role == "admin") {
+            return res.status(403).json("Forbidden")
         }
         req.user = decoded;
         next();
