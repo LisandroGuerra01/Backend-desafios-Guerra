@@ -3,7 +3,7 @@ import { verifyToken } from "../utils/jwt.utils.js";
 //Verificar usuarios logueados
 export const verifyTokenAuth = (req, res, next) => {
     try {
-        const token = req.cookie.token;
+        const token = req.cookies.token;
         const decoded = verifyToken(token);
         if (!decoded) {
             return res.status(401).json("Unauthorized")
@@ -18,7 +18,7 @@ export const verifyTokenAuth = (req, res, next) => {
 //Verificar usuario logueado que es admin o premium
 export const verifyTokenAdminPremium = (req, res, next) => {
     try {
-        const token = req.cookie.token;
+        const token = req.cookies.token;
         const decoded = verifyToken(token);
         if (!decoded) {
             return res.status(401).json("Unauthorized")
@@ -36,7 +36,7 @@ export const verifyTokenAdminPremium = (req, res, next) => {
 //Verificar usuario logueado que es admin
 export const verifyTokenAdmin = (req, res, next) => {
     try {
-        const token = req.cookie.token;
+        const token = req.cookies.token;
         const decoded = verifyToken(token);
         if (!decoded || decoded.role !== "admin") {
             return res.status(401).json("Unauthorized")
@@ -51,7 +51,7 @@ export const verifyTokenAdmin = (req, res, next) => {
 //Verificar usuario logueado que es user
 export const verifyTokenUser = (req, res, next) => {
     try {
-        const token = req.cookie.token;
+        const token = req.cookies.token;
         const decoded = verifyToken(token);
         if (!decoded || decoded.role !== "user") {
             return res.status(401).json("Unauthorized")
