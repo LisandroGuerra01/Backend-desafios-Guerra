@@ -1,12 +1,12 @@
 {
-  "name": "desafio9",
+  "name": "desafio11",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:dev": "nodemon ./src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon src/app.js",
+    "test": "mocha -t 10000 test/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -27,5 +27,10 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "mocha": "^10.4.0",
+    "supertest": "^7.0.0"
   }
 }
