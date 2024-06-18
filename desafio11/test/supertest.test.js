@@ -1,6 +1,7 @@
-import { expect } from 'chai';
+import chai from 'chai';
 import supertest from 'supertest';
 
+const expect = chai.expect;
 const requester = supertest('http://localhost:9090');
 
 const productMosck = {
