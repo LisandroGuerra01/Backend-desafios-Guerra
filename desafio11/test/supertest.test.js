@@ -16,6 +16,10 @@ describe('Set de test de supertest para productos', () => {
         const result = await requester.post('/api/products').send(productMosck);
         expect(result.status).to.be.equal(401);
     })
+    it('El usuario debe obtener los productos correctamente y recibir un status code 200', async () => {
+        const result = await requester.get('/api/products');
+        expect(result.status).to.be.equal(200);
+    })
     it('El usuario tiene que estar autorizado para poder modificar un producto', async () => {
         const result = await requester.put('/api/products/1').send(productMosck);
         expect(result.status).to.be.equal(401);
@@ -33,5 +37,4 @@ describe('Set de test de supertest para productos', () => {
         const result = await requester.get('/api/products');
         expect(result.body.length).to.be.greaterThan(0);
     })
-
 })
