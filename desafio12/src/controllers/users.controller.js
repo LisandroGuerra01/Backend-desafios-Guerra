@@ -115,6 +115,13 @@ class UsersController {
     }
 
     async premiumUserRole(req, res) {
+        if (!req.files) {
+            return res.status(400).json({ message: 'Los documentos no fueron cargados' });
+        }
+        if (req.files.document.length < 3) {
+            return res.status(400).json({ message: 'Se necesitan 3 documentos' });
+        }
+
         try {
             const result = await usersService.changeRole(req.params.uid);
             res.status(200).json(result);
@@ -136,7 +143,7 @@ class UsersController {
             });
         } catch (error) {
             await usersService.updateUserStatus(uid, 'rejected');
-            res.status(500).json({message: 'Error al subir archivo', error: error.message});
+            res.status(500).json({ message: 'Error al subir archivo', error: error.message });
         }
     }
 
