@@ -44,6 +44,15 @@ const usersSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Orders'
     }],
+    documents: [{
+        name: String,
+        reference: String,
+    }],
+    last_connection: {
+        type: Date,
+        required: false,
+    },
+    // soft delete
     deleteAt: {
         type: Date,
         required: false,

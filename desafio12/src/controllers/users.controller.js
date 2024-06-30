@@ -67,6 +67,7 @@ class UsersController {
 
     async logoutUsers(req, res) {
         try {
+            const result = await usersService.logout();
             res.clearCookie("token");
             res.status(200).json("Logout OK");
         } catch (error) {
