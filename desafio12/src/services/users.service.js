@@ -97,11 +97,9 @@ class UsersService {
         }
     }
 
-    async logout(users) {
+    async logout(email) {
         try {
-            const result = await usersMongo.update(users.id, { last_connection: new Date() });
-            console.log(result);
-            console.log(users.id);
+            const result = await usersMongo.updateEmail(email, { last_connection: new Date() });
             return result;
         } catch (error) {
             return error;
@@ -195,6 +193,15 @@ class UsersService {
             }
             const resultUpdate = await usersMongo.update(id, { role: newRole });
             return resultUpdate;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async updateUserStatus(uid, status) {
+        try {
+            const result = await usersMongo.update( uid, { statusDocuments: status });
+            return result;
         } catch (error) {
             return error;
         }

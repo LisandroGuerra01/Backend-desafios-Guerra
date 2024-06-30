@@ -36,6 +36,12 @@ const usersSchema = new mongoose.Schema({
         enum: ['active', 'inactive'],
         default: 'active'
     },
+    statusDocuments: {
+        type: String,
+        required: true,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+    },
     cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Carts'

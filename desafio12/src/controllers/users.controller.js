@@ -67,7 +67,9 @@ class UsersController {
 
     async logoutUsers(req, res) {
         try {
-            const result = await usersService.logout();
+            const tokenUser = req.cookies.token;
+            const { email } = await usersService.current(tokenUser);
+            const result = await usersService.logout(email);
             res.clearCookie("token");
             res.status(200).json("Logout OK");
         } catch (error) {
@@ -118,6 +120,23 @@ class UsersController {
             res.status(200).json(result);
         } catch (error) {
             res.status(400).json(error);
+        }
+    }
+
+    async uploadDocuments(req, res) {
+        const { uid } = req.params;
+        const files = req.files;
+
+        try {
+            const user = await usersService.updateUserStatus(uid, 'approved');
+            res.status(200).json({
+                message: 'Documento subido exitosamente',
+                files: files,
+                user: user
+            });
+        } catch (error) {
+            await usersService.updateUserStatus(uid, 'rejected');
+            res.status(500).json({message: 'Error al subir archivo', error: error.message});
         }
     }
 
