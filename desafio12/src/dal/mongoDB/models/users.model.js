@@ -36,6 +36,12 @@ const usersSchema = new mongoose.Schema({
         enum: ['active', 'inactive'],
         default: 'active'
     },
+    statusDocuments: {
+        type: String,
+        required: true,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+    },
     cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Carts'
@@ -44,6 +50,15 @@ const usersSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Orders'
     }],
+    documents: [{
+        name: String,
+        reference: String,
+    }],
+    last_connection: {
+        type: Date,
+        required: false,
+    },
+    // soft delete
     deleteAt: {
         type: Date,
         required: false,

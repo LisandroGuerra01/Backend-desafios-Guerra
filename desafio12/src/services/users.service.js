@@ -5,6 +5,7 @@ import { UsersDTO, UsersViewDTO } from '../dal/dtos/users.dto.js';
 import config from '../config/config.js';
 import emailService from '../utils/emailService.utils.js';
 
+
 class UsersService {
     async findAll() {
         try {
@@ -25,6 +26,9 @@ class UsersService {
     }
 
     async create(users) {
+        if (users.name == null || users.email == null || users.password == null || users.age == null) {
+            return { error: 'Completar todos los datos' }
+        }
         const { password } = users;
         try {
             const hashPassword = await hashData(password);
@@ -81,6 +85,7 @@ class UsersService {
                 const isMatch = await compareData(password, hashPassword);
                 if (isMatch) {
                     const token = generateToken(result[0]);
+                    usersMongo.update(result[0].id, { last_connection: new Date() })
                     return token;
                 }
                 return null;
@@ -88,6 +93,15 @@ class UsersService {
             return null;
         }
         catch (error) {
+            return error;
+        }
+    }
+
+    async logout(email) {
+        try {
+            const result = await usersMongo.updateEmail(email, { last_connection: new Date() });
+            return result;
+        } catch (error) {
             return error;
         }
     }
@@ -179,6 +193,15 @@ class UsersService {
             }
             const resultUpdate = await usersMongo.update(id, { role: newRole });
             return resultUpdate;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async updateUserStatus(uid, status) {
+        try {
+            const result = await usersMongo.update( uid, { statusDocuments: status });
+            return result;
         } catch (error) {
             return error;
         }
