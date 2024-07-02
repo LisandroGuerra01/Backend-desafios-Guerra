@@ -1,6 +1,6 @@
 import productsService from '../services/products.service.js';
 import customError from '../utils/customError.js';
-import {ErrorName, ErrorMessage, ErrorCause} from '../utils/error.enum.js';
+import { ErrorName, ErrorMessage, ErrorCause } from '../utils/error.enum.js';
 
 class ProductsController {
     async findAllProducts(req, res) {
