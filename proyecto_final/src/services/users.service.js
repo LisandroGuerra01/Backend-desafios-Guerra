@@ -10,7 +10,8 @@ class UsersService {
     async findAll() {
         try {
             const result = await usersMongo.findAll();
-            return result;
+            const usersViewDTO = result.map(user => new UsersViewDTO(user));
+            return usersViewDTO;
         } catch (error) {
             throw error;
         }
