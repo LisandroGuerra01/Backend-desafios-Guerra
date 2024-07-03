@@ -56,6 +56,7 @@ class UsersService {
         try {
             const result = await usersMongo.delete(id);
             const email = result.email;
+            console.log(email);
             if (email) {
                 const emailBody = {
                     to: email,
