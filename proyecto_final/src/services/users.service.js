@@ -4,6 +4,7 @@ import { generateToken, verifyToken, generateTokenResetPassword, verifyTokenRese
 import { UsersDTO, UsersViewDTO } from '../dal/dtos/users.dto.js';
 import config from '../config/config.js';
 import emailService from '../utils/emailService.utils.js';
+import moment from 'moment';
 
 
 class UsersService {
@@ -54,7 +55,41 @@ class UsersService {
     async delete(id) {
         try {
             const result = await usersMongo.delete(id);
-            return result;
+            const email = result.email;
+            if (email) {
+                const emailBody = {
+                    to: email,
+                    subject: 'Usuario eliminado por inactividad',
+                    html: `<p>Se ha eliminado tu usuario por permanecer demasiado tiempo inactivo. Para continuar, deberás crear un usuario nuevo </p>
+                    <a href="${url}">Crear usuario:</a>`
+                }
+                const emailResult = await emailService.sendEmail(emailBody.to, emailBody.subject, emailBody.html);
+                return emailResult;
+            }
+            return null;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async deleteIfInactive(id) {
+        try {
+            const user = await usersMongo.findById(id);
+
+            if (!user) {
+                return null;
+            }
+
+            const lastConnection = user.last_connection;
+            const now = moment();
+            const diff = now.diff(lastConnection, 'minutes ');
+
+            if (diff > 20) {
+                const result = await usersMongo.delete(id);
+                return result;
+            } else {
+                return { message: 'El usuario se conectó hace menos de 2 días' };
+            }
         } catch (error) {
             return error;
         }
@@ -201,7 +236,7 @@ class UsersService {
 
     async updateUserStatus(uid, status) {
         try {
-            const result = await usersMongo.update( uid, { statusDocuments: status });
+            const result = await usersMongo.update(uid, { statusDocuments: status });
             return result;
         } catch (error) {
             return error;
