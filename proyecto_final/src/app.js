@@ -9,11 +9,14 @@ import { logger } from './utils/logger.utils.js';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 import { __dirname } from './utils/dirname.utils.js';
+import handlebars from 'express-handlebars';
+import viewsRouter from './routes/views.router.js';
+import cron from 'node-cron';
+import usersService from './services/users.service.js';
 
 
 const app = express();
-const NODE_ENV = config.node_env
-const log = logger(NODE_ENV);
+const log = logger();
 
 app.use(compression());
 
@@ -30,6 +33,10 @@ const swaggerOptions = {
     apis: [`${__dirname}/docs/**/*.yaml`],
 };
 
+app.engine('handlebars', handlebars.engine());
+app.set('views', __dirname + '/views');
+app.set('view engine', 'handlebars');
+
 const specs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
@@ -38,12 +45,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api', apiRouter);
+app.use('/', viewsRouter);
 
 app.use(errorMiddleware);
 
+cron.schedule('29 1 * * *', async () => {
+    await usersService.deleteIfInactive();
+    log.info('Usuarios inactivos eliminados');
+});
+
 const PORT = config.port;
+const ENV = config.node_env;
 
 app.listen(PORT, () => {
-    // console.log(`Server is running on port ${PORT}`);
-    log.info(`Server is running on port ${PORT}`);
+    log.info(`Server corriendo en puerto ${PORT}`);
+    log.info(`Enviroment: ${ENV}`);
 });

@@ -4,13 +4,12 @@ import { generateToken, verifyToken, generateTokenResetPassword, verifyTokenRese
 import { UsersDTO, UsersViewDTO } from '../dal/dtos/users.dto.js';
 import config from '../config/config.js';
 import emailService from '../utils/emailService.utils.js';
-import moment from 'moment';
-
 
 class UsersService {
     async findAll() {
         try {
             const result = await usersMongo.findAll();
+            if (result.length === 0) return ("No se encontraron usuarios");
             const usersViewDTO = result.map(user => new UsersViewDTO(user));
             return usersViewDTO;
         } catch (error) {
@@ -21,6 +20,7 @@ class UsersService {
     async findById(id) {
         try {
             const result = await usersMongo.findById(id);
+            if (!result) return ("Usuario no encontrado");
             return result;
         } catch (error) {
             throw error;
@@ -52,47 +52,38 @@ class UsersService {
         }
     }
 
-    async delete(id) {
+    // Endpoint para eliminar usuarios inactivos
+    async deleteIfInactive() {
         try {
-            const result = await usersMongo.delete(id);
-            const email = result.email;
-            console.log(email);
-            if (email) {
-                const emailBody = {
-                    to: email,
-                    subject: 'Usuario eliminado por inactividad',
-                    html: `<p>Se ha eliminado tu usuario por permanecer demasiado tiempo inactivo. Para continuar, deberás crear un usuario nuevo </p>
-                    <a href="${url}">Crear usuario:</a>`
+            // Elimina los usuarios inactivos utilizando la fecha de MongoDB
+            const query = {
+                $expr: {
+                    $lt: [
+                        "$last_connection",
+                        {
+                            $subtract: [
+                                "$$NOW",
+                                1000 * 60 * 60 * 24 * 2 // 2 días en milisegundos
+                            ]
+                        }
+                    ]
                 }
-                const emailResult = await emailService.sendEmail(emailBody.to, emailBody.subject, emailBody.html);
-                return emailResult;
             }
-            return null;
+            const userInactive = await usersMongo.findUserInactive(query)
+
+            // Enviar correos electrónicos
+            const emailPromises = userInactive.map(user => {
+                const emailText = `Hola ${user.name}, tu cuenta ha sido eliminada por inactividad de más de dos días.`;
+                return emailService.sendEmail(user.email, 'Cuenta eliminada por inactividad', emailText);
+            });
+
+            await Promise.all(emailPromises);
+
+            //Borrar
+            const result = await usersMongo.deleteMany(query)
+            return result
         } catch (error) {
-            return error;
-        }
-    }
-
-    async deleteIfInactive(id) {
-        try {
-            const user = await usersMongo.findById(id);
-
-            if (!user) {
-                return null;
-            }
-
-            const lastConnection = user.last_connection;
-            const now = moment();
-            const diff = now.diff(lastConnection, 'minutes ');
-
-            if (diff > 20) {
-                const result = await usersMongo.delete(id);
-                return result;
-            } else {
-                return { message: 'El usuario se conectó hace menos de 2 días' };
-            }
-        } catch (error) {
-            return error;
+            throw error;
         }
     }
 
