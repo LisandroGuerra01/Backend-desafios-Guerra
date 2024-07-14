@@ -15,7 +15,9 @@ router.get('/chat', (req, res) => {
 
 //View para visualizar, modificar y eliminar un usuario. Solo visible para admin
 router.get('/users', (req, res) => {
-    res.render("users")
+    res.render("users", {
+        title: "Users"
+    })
 })
 
 //Endpoint para ver todos los productos si se está logueado

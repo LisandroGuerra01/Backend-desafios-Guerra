@@ -8,6 +8,7 @@ class CartsService {
     async findAll() {
         try {
             const result = await cartsMongo.findAll();
+            if (result.length === 0) return ("No se encontraron carts");
             return result;
         } catch (error) {
             return error;
@@ -28,7 +29,7 @@ class CartsService {
             const { id } = verifyToken(tokenUserId);
             const user = await usersMongo.findById(id);
             if (!user) {
-                return { error: 'User not found' }
+                return { error: 'Usuario no encontrado' }
             }
             const cart = await cartsMongo.create();
             const userCart = await usersMongo.update(id, { cart: cart._id });

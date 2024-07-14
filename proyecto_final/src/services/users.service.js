@@ -244,6 +244,15 @@ class UsersService {
             return error;
         }
     }
+
+    async findByCartId(cid) {
+        try {
+            const result = await usersMongo.findByField('cart', cid);
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }
 }
 
 const usersService = new UsersService();

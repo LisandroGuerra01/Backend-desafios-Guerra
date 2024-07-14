@@ -1,4 +1,6 @@
 import { verifyToken } from "../utils/jwt.utils.js";
+import usersService from "../services/users.service.js";
+
 
 //Verificar usuarios logueados
 export const verifyTokenAuth = (req, res, next) => {
@@ -49,7 +51,7 @@ export const verifyTokenAdmin = (req, res, next) => {
 }
 
 //Verificar usuario logueado que es user
-export const verifyTokenUser = (req, res, next) => {
+export const verifyTokenUser = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         const decoded = verifyToken(token);
@@ -60,6 +62,11 @@ export const verifyTokenUser = (req, res, next) => {
             return res.status(403).json("Forbidden")
         }
         req.user = decoded;
+        const userCart = await usersService.findByCartId(req.params.cid);
+
+        if (userCart[0]._id.toString() !== decoded.id) {
+            return res.status(403).json("Forbidden")
+        }
         next();
     } catch (error) {
         res.status(401).json("Unauthorized")
