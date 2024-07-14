@@ -1,7 +1,8 @@
 import { Router } from "express";
 // import ProductManager from "../dal/dao/ManagerMongo/ProductManagerMongo.js";
 // import CartManager from "../dal/dao/ManagerMongo/CartManagerMongo.js";
-// import { isLogged } from "../middlewares/auth.middleware.js";
+import userService from "../services/users.service.js"
+import { verifyTokenAdmin } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -19,6 +20,24 @@ router.get('/users', (req, res) => {
         title: "Users"
     })
 })
+
+//Endpoint para modificar roles de usuarios y eliminar usuarios, solo accesible para admin
+router.get('/modify', verifyTokenAdmin, async (req, res) => {
+    const users = await userService.findAll()
+        res.render("modify", {
+            users
+        });
+    });
+
+
+
+
+
+
+
+
+
+    
 
 //Endpoint para ver todos los productos si se está logueado
 // router.get('/products', jwtAuthCookie, async (req, res) => {

@@ -39,9 +39,15 @@ export const verifyTokenAdminPremium = (req, res, next) => {
 export const verifyTokenAdmin = (req, res, next) => {
     try {
         const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).json("1")
+        }
         const decoded = verifyToken(token);
-        if (!decoded || decoded.role !== "admin") {
-            return res.status(401).json("Unauthorized")
+        if (!decoded) {
+            return res.status(401).json("2")
+        }
+        if (decoded.role !== "admin") {
+            return res.status(401).json("3")
         }
         req.user = decoded;
         next();

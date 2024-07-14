@@ -1,0 +1,28 @@
+<h1>Lista de Usuarios</h1>
+    <form action="/users/update-role" method="POST">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+
+                    <td>
+                        <form id="roleForm-{{this._id}}" action="/users/update-role" method="POST">
+                            <input type="hidden" name="userId" value="{{this._id}}">
+                            <button type="submit">Actualizar Rol</button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </form>
