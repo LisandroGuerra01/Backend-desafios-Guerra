@@ -94,11 +94,11 @@ class CartsService {
         try {
             const cart = await cartsMongo.findById(cid);
             if (!cart) {
-                return { error: 'Cart not found' };
+                return { error: 'Cart no encontrado' };
             }
             const pro = await productsMongo.findById(pid);
             if (!pro) {
-                return { error: 'Product not found' };
+                return { error: 'Producto no encontrado' };
             }
             const product = cart.products.find(p => p.pid._id.toString() === pid);
             if (product) {
@@ -108,7 +108,7 @@ class CartsService {
                     cart.products = cart.products.filter(p => p.pid._id.toString() !== pid);
                 }
             } else {
-                return { error: 'Product not found in cart' };
+                return { error: 'Producto no encontrado dentro del cart' };
             }
             const result = await cartsMongo.update(cid, cart);
             return result;

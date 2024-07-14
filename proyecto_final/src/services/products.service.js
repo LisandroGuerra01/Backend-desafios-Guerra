@@ -1,11 +1,13 @@
 import productsMongo from '../dal/daos/productsDaos/productsMongo.js';
 import productsMocks from '../utils/mocks.utils.js';
 import { verifyToken } from '../utils/jwt.utils.js';
+import emailService from '../utils/emailService.utils.js';
 
 class ProductsService {
     async findAll() {
         try {
             const result = await productsMongo.findAll();
+            if (result.length === 0) return ("No se encontraron productos");
             return result;
         } catch (error) {
             return error;
@@ -15,6 +17,7 @@ class ProductsService {
     async findById(id) {
         try {
             const result = await productsMongo.findById(id);
+            if (!result) return ("Producto no encontrado");
             return result;
         } catch (error) {
             return error;
@@ -48,9 +51,16 @@ class ProductsService {
         }
     }
 
-    async delete(id) {
+    async delete(req) {
         try {
+            const { params: { id }, user: { role, email } } = req;
             const result = await productsMongo.delete(id);
+
+            if (!result) return ("Producto no encontrado");
+            if (role !== 'premium') return result;
+            
+            const emailText = `El producto ${result.name}, con ${id} ha sido eliminado de la base de datos.`;
+            await emailService.sendEmail(email, 'Producto eliminado de la base de datos', emailText)
             return result;
         } catch (error) {
             return error;

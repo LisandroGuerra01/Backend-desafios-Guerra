@@ -1,7 +1,7 @@
 import { Router } from "express";
 // import ProductManager from "../dal/dao/ManagerMongo/ProductManagerMongo.js";
 // import CartManager from "../dal/dao/ManagerMongo/CartManagerMongo.js";
-// import { auth, isLogged, jwtAuth, jwtAuthCookie } from "../middlewares/auth.middleware.js";
+// import { isLogged } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -61,9 +61,9 @@ router.get('/users', (req, res) => {
 // })
 
 //Endpoint para register de usuario
-// router.get('/register', isLogged, (req, res) => {
-//     res.render("register")
-// })
+router.get('/register', (req, res) => {
+    res.render("users")
+})
 //Endpoint para login de usuario
 // router.get('/login', isLogged, (req, res) => {
 //     res.render("login")

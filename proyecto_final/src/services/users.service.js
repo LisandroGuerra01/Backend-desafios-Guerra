@@ -52,6 +52,16 @@ class UsersService {
         }
     }
 
+    async delete(id) {
+        try {
+            const result = await usersMongo.delete(id);
+            if (!result) return ("Usuario no encontrado");
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // Endpoint para eliminar usuarios inactivos
     async deleteIfInactive() {
         try {

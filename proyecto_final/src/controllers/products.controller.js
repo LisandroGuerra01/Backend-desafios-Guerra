@@ -43,7 +43,7 @@ class ProductsController {
 
     async deleteProducts(req, res) {
         try {
-            const result = await productsService.delete(req.params.id);
+            const result = await productsService.delete(req);
             res.status(200).json(result);
         } catch (error) {
             res.status(400).json(error);
