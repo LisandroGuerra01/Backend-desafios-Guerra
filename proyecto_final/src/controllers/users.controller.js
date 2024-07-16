@@ -40,6 +40,15 @@ class UsersController {
 
     async deleteUsers(req, res) {
         try {
+            const result = await usersService.delete(req.params.id);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(400).json(error);
+        }
+    }
+
+    async deleteUsersInactive(req, res) {
+        try {
             const result = await usersService.deleteIfInactive(req.params.id);
             res.status(200).json(result);
         } catch (error) {

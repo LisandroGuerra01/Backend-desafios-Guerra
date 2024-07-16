@@ -2,7 +2,7 @@ import { Router } from "express";
 // import ProductManager from "../dal/dao/ManagerMongo/ProductManagerMongo.js";
 // import CartManager from "../dal/dao/ManagerMongo/CartManagerMongo.js";
 import userService from "../services/users.service.js"
-import { verifyTokenAdmin } from "../middlewares/auth.middleware.js";
+import { verifyTokenAdmin, isLogged } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -14,12 +14,16 @@ router.get('/chat', (req, res) => {
     })
 })
 
-//View para visualizar, modificar y eliminar un usuario. Solo visible para admin
-router.get('/users', (req, res) => {
-    res.render("users", {
-        title: "Users"
-    })
+//Endpoint para login de usuario
+router.get('/login', (req, res) => {
+    res.render("login")
 })
+
+//Endpoint para ver el perfil de usuario
+// router.get("/profile", jwtAuthCookie, async (req, res) => {
+//     const { first_name, last_name, email, age, role } = req.user;
+//     res.render("profile", { first_name, last_name, email, age, role });
+// });
 
 //Endpoint para modificar roles de usuarios y eliminar usuarios, solo accesible para admin
 router.get('/modify', verifyTokenAdmin, async (req, res) => {
@@ -85,16 +89,7 @@ router.get('/modify', verifyTokenAdmin, async (req, res) => {
 router.get('/register', (req, res) => {
     res.render("users")
 })
-//Endpoint para login de usuario
-// router.get('/login', isLogged, (req, res) => {
-//     res.render("login")
-// })
 
-//Endpoint para ver el perfil de usuario
-// router.get("/profile", jwtAuthCookie, async (req, res) => {
-//     const { first_name, last_name, email, age, role } = req.user;
-//     res.render("profile", { first_name, last_name, email, age, role });
-// });
 
 // Endpoint de error de registro
 // router.get("/errorRegister", (req, res) => {

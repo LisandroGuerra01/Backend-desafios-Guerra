@@ -78,3 +78,16 @@ export const verifyTokenUser = async (req, res, next) => {
         res.status(401).json("Unauthorized")
     }
 }
+
+//Middleware para verificar si el usuario está logueado
+export const isLogged = async (req, res, next) => {
+    try {
+        if (req.session.passport?.user) {
+            res.redirect('/profile');
+        } else {
+            next();
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}

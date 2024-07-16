@@ -126,8 +126,10 @@ class UsersService {
                     usersMongo.update(result[0].id, { last_connection: new Date() })
                     return token;
                 }
+                
                 return null;
             }
+            res.redirect('/profile');
             return null;
         }
         catch (error) {
