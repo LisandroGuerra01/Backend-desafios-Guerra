@@ -1,7 +1,7 @@
 import usersMongo from '../dal/daos/usersDaos/usersMongo.js';
 import { hashData, compareData } from '../utils/bcrypt.utils.js';
 import { generateToken, verifyToken, generateTokenResetPassword, verifyTokenResetPassword, decodeTokenResetPassword } from '../utils/jwt.utils.js';
-import { UsersDTO, UsersViewDTO } from '../dal/dtos/users.dto.js';
+import { UsersDTO, UsersViewDTO, UsersViewID } from '../dal/dtos/users.dto.js';
 import config from '../config/config.js';
 import emailService from '../utils/emailService.utils.js';
 
@@ -11,6 +11,17 @@ class UsersService {
             const result = await usersMongo.findAll();
             if (result.length === 0) return ("No se encontraron usuarios");
             const usersViewDTO = result.map(user => new UsersViewDTO(user));
+            return usersViewDTO;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findAllConId() {
+        try {
+            const result = await usersMongo.findAll();
+            if (result.length === 0) return ("No se encontraron usuarios");
+            const usersViewDTO = result.map(user => new UsersViewID(user));
             return usersViewDTO;
         } catch (error) {
             throw error;

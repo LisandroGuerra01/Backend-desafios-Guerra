@@ -33,7 +33,16 @@ const swaggerOptions = {
     apis: [`${__dirname}/docs/**/*.yaml`],
 };
 
-app.engine('handlebars', handlebars.engine());
+// Configurar Handlebars y registrar el helper 'eq'
+const hbs = handlebars.create({
+  helpers: {
+    eq: function (a, b) {
+      return a === b;
+    }
+  }
+});
+
+app.engine('handlebars', hbs.engine);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 

@@ -18,3 +18,12 @@ export class UsersViewDTO {
         this.role = user.role;
     }
 }
+
+export class UsersViewID {
+    constructor(user) {
+        this.id = user._id;
+        this.name = user.name;
+        this.email = user.email;
+        this.role = user.role;
+    }
+}

@@ -1,34 +1,38 @@
 <h1>Lista de Usuarios</h1>
-<form action="/users/:id" method="PUT">
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Usuario</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each users}}
-            <tr>
-                <td>{{this.name}}</td>
-                <td>{{this.email}}</td>
-                <td>
-                    <form id="roleForm-{{this._id}}" action="/users/:id" method="PUT">
-                        <input type="hidden" name="userId" value="{{this._id}}">
-                        <select id="role" name="rol">
-                            <option value="user">User</option>
-                            <option value="premium">Premium</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </form>
-                </td>
-                <td>
-                    <button class="delete-button" onclick="deleteUsers('user123')">Eliminar Usuario</button>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</form>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>ID</th>
+            <th>Rol</th>
+            <th>Acción</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.id}}</td>
+            <td>
+                <select name="role" form="roleForm-{{this.id}}">
+                    <option value="user" {{#if (eq this.role 'user' )}}selected{{/if}}>User</option>
+                    <option value="premium" {{#if (eq this.role 'premium' )}}selected{{/if}}>Premium</option>
+                    <option value="admin" {{#if (eq this.role 'admin' )}}selected{{/if}}>Admin</option>
+                </select>
+            </td>
+            <td>
+                <form class="roleForm" id="roleForm-{{this.id}}" action="/api/users/update-role" method="POST">
+                    <input type="hidden" name="userId" value="{{this.id}}">
+                    <button type="submit">Actualizar Rol</button>
+                </form>
+            </td>
+            <td>
+                <button class="delete-btn" id="{{this.id}}" action="/api/users/:id">X</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

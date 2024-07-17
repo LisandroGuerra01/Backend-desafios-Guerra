@@ -20,14 +20,13 @@ router.get('/login', (req, res) => {
 })
 
 //Endpoint para ver el perfil de usuario
-// router.get("/profile", jwtAuthCookie, async (req, res) => {
-//     const { first_name, last_name, email, age, role } = req.user;
-//     res.render("profile", { first_name, last_name, email, age, role });
-// });
+router.get("/profile", async (req, res) => {
+    res.render("profile");
+});
 
 //Endpoint para modificar roles de usuarios y eliminar usuarios, solo accesible para admin
 router.get('/modify', verifyTokenAdmin, async (req, res) => {
-    const users = await userService.findAll()
+    const users = await userService.findAllConId()
         res.render("modify", {
             users
         });

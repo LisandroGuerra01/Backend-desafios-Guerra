@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import usersService from "../services/users.service.js";
 
 
@@ -34,6 +35,18 @@ class UsersController {
             const result = await usersService.update(req.params.id, req.body);
             res.status(200).json(result);
         } catch (error) {
+            res.status(400).json(error);
+        }
+    }
+
+    async updateRoleUsers(req, res) {
+        try {
+            const { userId, role } = req.body;
+            const objectId = new mongoose.Types.ObjectId(userId);
+            const result = await usersService.update(objectId, { role });
+            res.status(200).json(result);
+        } catch (error) {
+            console.log(error)
             res.status(400).json(error);
         }
     }
