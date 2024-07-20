@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const roleForms = document.querySelectorAll("roleForm");
+    const roleForms = document.querySelectorAll(".roleForm");
 
     roleForms.forEach(form => {
         form.addEventListener("submit", event => {
@@ -20,25 +20,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (data.success) {
                         alert('Rol actualizado exitosamente');
                     } else {
-                        alert('Error al acatualizar rol');
+                        alert('Error al actualizar rol');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error al acatualizar rol');
+                    alert('Error al actualizar rol');
                 });
         });
     });
-    // Eliminar usuario
-    const deleteButtons = document.querySelectorAll(".delete-btn");
 
-    deleteButtons.forEach(button => {
-        button.addEventListener("click", event => {
+    // Eliminar usuario
+    const deleteForms = document.querySelectorAll(".deleteForm");
+    deleteForms.forEach(form => {
+        form.addEventListener("submit", event => {
             event.preventDefault();
 
-            const userId = button.getAttribute("id");
+            const userId = form.querySelector("input[name='userId']").value;
 
-            fetch(`/api/users/:id`, {
+            fetch(`/api/users/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -49,8 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(data => {
                     if (data.success) {
                         alert('Usuario eliminado exitosamente');
-                        // Eliminar la fila de la tabla
-                        button.closest('tr').remove();
+                        window.location.href = '/users';
                     } else {
                         alert('Error al eliminar usuario');
                     }
@@ -60,5 +59,5 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert('Error al eliminar usuario');
                 });
         });
-    })
-})
+    });
+});

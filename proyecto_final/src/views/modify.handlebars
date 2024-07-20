@@ -30,7 +30,10 @@
                 </form>
             </td>
             <td>
-                <button class="delete-btn" id="{{this.id}}" action="/api/users/:id">X</button>
+                <form class="deleteForm" id="deleteForm-{{this.id}}" action="/api/users/{{this.id}}" method="POST">
+                    <input type="hidden" name="userId" value="{{this.id}}">
+                    <button type="click">X</button>
+                </form>
             </td>
         </tr>
         {{/each}}

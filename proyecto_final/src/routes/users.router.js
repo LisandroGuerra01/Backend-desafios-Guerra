@@ -10,7 +10,7 @@ router.get("/:id", usersController.findUsersById);
 router.post("/", usersController.createUsers);
 router.put("/:id", usersController.updateUsers);
 router.post("/update-role", usersController.updateRoleUsers)
-router.delete("/:id", usersController.deleteUsers);
+router.post("/:id", usersController.deleteUsers);
 router.delete("/inactive", usersController.deleteUsersInactive);
 router.delete("/soft/:id", usersController.deleteSoftUsers);
 router.post("/login", usersController.loginUsers);
