@@ -17,7 +17,7 @@ import usersService from './services/users.service.js';
 
 const app = express();
 const log = logger();
-"asd"
+
 app.use(compression());
 
 connectDB();
