@@ -30,7 +30,7 @@
                 </form>
             </td>
             <td>
-                <form class="deleteForm" id="deleteForm-{{this.id}}" action="/api/users/{{this.id}}" method="POST">
+                <form class="deleteForm" id="deleteForm-{{this.id}}" action="/api/users/{{this.id}}" method="DELETE">
                     <input type="hidden" name="userId" value="{{this.id}}">
                     <button type="click">X</button>
                 </form>

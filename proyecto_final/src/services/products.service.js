@@ -4,11 +4,52 @@ import { verifyToken } from '../utils/jwt.utils.js';
 import emailService from '../utils/emailService.utils.js';
 
 class ProductsService {
-    async findAll() {
+    async findAll(limit, page, sort, query) {
         try {
-            const result = await productsMongo.findAll();
-            if (result.length === 0) return ("No se encontraron productos");
-            return result;
+            const search = query ? {
+                stock: { $gt: 0 },
+                $or: [
+                    //devuelve todos los productos que tengan el query en el titulo o en la categoria
+                    { category: { $regex: query, $options: 'i' } },
+                    { title: { $regex: query, $options: 'i' } },
+                ]
+            } : {
+                //devuelve todos los productos que tengan stock mayor a 0
+                stock: { $gt: 0 }
+            }
+    
+            if (sort === 'asc') {
+                sort = { price: 1 };
+            } else if (sort === 'desc') {
+                sort = { price: -1 };
+            }
+    
+            const options = {
+                page: page || 1,
+                limit: limit || 10,
+                sort: sort,
+                lean: true,
+            }
+    
+            const allProducts = await productsMongo.findAllPaginate(search, options);
+    
+            allProducts.docs = allProducts.docs.map(product => {
+                const { _id, name, description, price, code, stock, category, thumbnail } = product;
+                return { id: _id, name, description, price, code, stock, category, thumbnail };
+            });
+    
+            const info = {
+                totalPages: allProducts.totalPages,
+                prevPage: allProducts.prevPage,
+                nextPage: allProducts.nextPage,
+                page: allProducts.page,
+                hasPrevPage: allProducts.hasPrevPage,
+                hasNextPage: allProducts.hasNextPage,
+                prevLink: allProducts.hasPrevPage ? `http://localhost:9090/api/products?page=${allProducts.prevPage}` : null,
+                nextLink: allProducts.hasNextPage ? `http://localhost:9090/api/products?page=${allProducts.nextPage}` : null,
+            }
+    
+            return { products: allProducts.docs, info };
         } catch (error) {
             return error;
         }

@@ -51,7 +51,7 @@ class UsersController {
         }
     }
 
-    async deleteUsers(req, res) {
+    async deleteUsersByAdmin(req, res) {
         try {
             const result = await usersService.delete(req.params.id);
             res.status(200).json(result);

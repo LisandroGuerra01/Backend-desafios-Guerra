@@ -1,7 +1,7 @@
 import { Router } from "express";
-// import ProductManager from "../dal/dao/ManagerMongo/ProductManagerMongo.js";
-// import CartManager from "../dal/dao/ManagerMongo/CartManagerMongo.js";
 import userService from "../services/users.service.js"
+import productsService from "../services/products.service.js";
+import cartsService from "../services/carts.service.js";
 import { verifyTokenAdmin, isLogged } from "../middlewares/auth.middleware.js";
 
 const router = Router();
@@ -32,16 +32,6 @@ router.get('/modify', verifyTokenAdmin, async (req, res) => {
         });
     });
 
-
-
-
-
-
-
-
-
-    
-
 //Endpoint para ver todos los productos si se está logueado
 // router.get('/products', jwtAuthCookie, async (req, res) => {
 //     const { first_name, last_name, email, age, role } = req.user;
@@ -58,31 +48,26 @@ router.get('/modify', verifyTokenAdmin, async (req, res) => {
 // })
 
 //Endpoint para ver todos los productos con paginación
-// router.get('/products/:page', jwtAuthCookie, async (req, res) => {
-//     const productManager = new ProductManager();
-//     const products = await productManager.getProductById(req.params.id);
-//     const { _id, title, description, price, code, stock, category, thumbnail } = product;
-//     res.render("product", {
-//         id: _id,
-//         title,
-//         description,
-//         price,
-//         code,
-//         stock,
-//         category,
-//         thumbnail
-//     })
-// })
+router.get('/products/page/:page', isLogged, async (req, res) => {
+    const products = await productsService.findAll(2, page);
+
+    res.render("products", { products });
+});
 
 //Endpoint para visualizar el carrito de compras
-// router.get('/carts/:cid', async (req, res) => {
-//     const cartManager = new CartManager();
-//     const cart = await cartManager.getCartById(req.params.cid);
-//     const { products } = cart;
-//     res.render("cart", {
-//         products
-//     })
-// })
+router.get('/carts/:id', async (req, res) => {
+    const cart = await cartsService.findById(req.params.id);
+    const { products } = cart;
+    console.log(products);
+    res.render("cart", {
+        products
+    })
+})
+
+//Endpoint para ver mensaje de compra exitosa
+router.get('/purchase', (req, res) => {
+    res.render("purchase")
+})
 
 //Endpoint para register de usuario
 router.get('/register', (req, res) => {

@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Eliminar usuario
     const deleteForms = document.querySelectorAll(".deleteForm");
     deleteForms.forEach(form => {
-        form.addEventListener("submit", event => {
+        form.addEventListener("click", event => {
             event.preventDefault();
 
             const userId = form.querySelector("input[name='userId']").value;
