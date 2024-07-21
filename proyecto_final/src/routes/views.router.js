@@ -2,7 +2,7 @@ import { Router } from "express";
 import userService from "../services/users.service.js"
 import productsService from "../services/products.service.js";
 import cartsService from "../services/carts.service.js";
-import { verifyTokenAdmin, isLogged } from "../middlewares/auth.middleware.js";
+import { verifyTokenAdmin } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -27,31 +27,9 @@ router.get("/profile", async (req, res) => {
 //Endpoint para modificar roles de usuarios y eliminar usuarios, solo accesible para admin
 router.get('/modify', verifyTokenAdmin, async (req, res) => {
     const users = await userService.findAllConId()
-        res.render("modify", {
-            users
-        });
+    res.render("modify", {
+        users
     });
-
-//Endpoint para ver todos los productos si se está logueado
-// router.get('/products', jwtAuthCookie, async (req, res) => {
-//     const { first_name, last_name, email, age, role } = req.user;
-//     const productManager = new ProductManager();
-//     const products = await productManager.getProducts();
-//     res.render("products", {
-//         products,
-//         first_name,
-//         last_name,
-//         email,
-//         age,
-//         role,
-//     })
-// })
-
-//Endpoint para ver todos los productos con paginación
-router.get('/products/page/:page', isLogged, async (req, res) => {
-    const products = await productsService.findAll(2, page);
-
-    res.render("products", { products });
 });
 
 //Endpoint para visualizar el carrito de compras
@@ -68,6 +46,21 @@ router.get('/carts/:id', async (req, res) => {
 router.get('/purchase', (req, res) => {
     res.render("purchase")
 })
+
+//Endpoint para ver todos los productos si se está logueado
+router.get('/products', async (req, res) => {
+    const products = await productsService.findAll();
+    res.render("products", {
+        products
+    })
+})
+
+//Endpoint para ver todos los productos con paginación
+// router.get('/products/page/:page', isLogged, async (req, res) => {
+//     const products = await productsService.findAll(2, page);
+
+//     res.render("products", { products });
+// });
 
 //Endpoint para register de usuario
 router.get('/register', (req, res) => {
