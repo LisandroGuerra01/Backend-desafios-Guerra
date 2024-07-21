@@ -1,10 +1,27 @@
-import { logger } from '../utils/logger.utils.js'
+import { logger } from "../utils/logger.utils.js";
 
-export const processRequest = () => {
-    logger().debug('This is a debug message');
-    logger().http('This is an HTTP message');
-    logger().info('This is an info message');
-    logger().warning('This is a warning message');
-    logger().error('This is an error message');
-    logger().fatal('This is a fatal message');
+class UsersLogger {
+    handleRequest = (req, res) => {
+        try {
+            logger().info('Request processed successfully');
+            res.status(200).send('Request processed successfully');
+        } catch (error) {
+            logger.error(error.message, error);
+            res.status(500).send("Internal Server Error");
+        }
+    };
+
+    loggerAllUsers = (req, res) => {
+        try {
+            logger().info('Usuarios obtenidos');
+            res.status(200).send('Request processed successfully');
+        } catch (error) {
+            logger.error(error.message, error);
+            res.status(500).send("Internal Server Error");
+        }
+    }
 }
+
+const usersLogger = new UsersLogger();
+
+export default usersLogger;

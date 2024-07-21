@@ -1,49 +1,52 @@
 import winston from 'winston';
+import config  from '../config/config.js'
 
-//Defino los niveles de prioridad de los msj de log de menor a mayor
-const levels = {
-    debug: 0,
-    http: 1,
-    info: 2,
-    warning: 3,
-    error: 4,
-    fatal: 5
-};
+const customLevelsOptions = {
+    levels: {
+        fatal: 0,
+        error: 1,
+        warning: 2,
+        info: 3,
+        http: 4,
+        debug: 5,
+    },
+    colors: {
+        fatal: 'red',
+        error: 'magenta',
+        warning: 'yellow',
+        info: 'green',
+        http: 'grey',
+        debug: 'cyan'
+    }
 
-//Defino los colores de los msj de log para cada nivel deprioridad de menor a mayor
-const colors = {
-    debug: 'blue',
-    http: 'green',
-    info: 'cyan',
-    warning: 'yellow',
-    error: 'red',
-    fatal: 'magenta'
 };
 
 //Crear el logger de desarrollo
 const developmentLogger = winston.createLogger({
-    levels,
+    levels: customLevelsOptions.levels,
     format: winston.format.simple(),
     transports: [
         new winston.transports.Console({
             level: 'debug',
             format: winston.format.combine(
-                winston.format.colorize({ colors }),
+                winston.format.colorize({ colors: customLevelsOptions.colors }),
                 winston.format.simple()
             )
-        })
+        }),
+        new winston.transports.File({ filename: 'logs/error.log', level: 'error', format: winston.format.simple() }),
+        new winston.transports.File({ filename: 'logs/combined.log', format: winston.format.simple() })
     ]
 });
 
 //Crear el logger de produccion
 const productionLogger = winston.createLogger({
-    levels,
+    levels: customLevelsOptions.levels,
     // format: winston.format.simple(),
     transports: [
         new winston.transports.Console({
-            level: 'info',
+            level: 'http',
             format: winston.format.combine(
-                winston.format.colorize({ colors }),
+                winston.format.colorize({ colors: customLevelsOptions.colors }),
                 winston.format.simple()
             )
         }),
@@ -52,11 +55,13 @@ const productionLogger = winston.createLogger({
     ]
 });
 
-//Exporto el logger correspondiente según el entorno de ejecución (development o production)
-export const logger = (env) => {
-    if (env === 'development') {
-        return developmentLogger;
+const ENV = config.node_env
+
+//Creo el metodo logger para exportar developmentLogger y productionLogger
+export const logger = () => {
+    if (ENV === 'dev') {
+        return developmentLogger
     } else {
-        return productionLogger;
+        return productionLogger
     }
 }

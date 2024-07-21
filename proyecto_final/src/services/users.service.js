@@ -1,16 +1,28 @@
 import usersMongo from '../dal/daos/usersDaos/usersMongo.js';
 import { hashData, compareData } from '../utils/bcrypt.utils.js';
 import { generateToken, verifyToken, generateTokenResetPassword, verifyTokenResetPassword, decodeTokenResetPassword } from '../utils/jwt.utils.js';
-import { UsersDTO, UsersViewDTO } from '../dal/dtos/users.dto.js';
+import { UsersDTO, UsersViewDTO, UsersViewID } from '../dal/dtos/users.dto.js';
 import config from '../config/config.js';
 import emailService from '../utils/emailService.utils.js';
-
 
 class UsersService {
     async findAll() {
         try {
             const result = await usersMongo.findAll();
-            return result;
+            if (result.length === 0) return ("No se encontraron usuarios");
+            const usersViewDTO = result.map(user => new UsersViewDTO(user));
+            return usersViewDTO;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findAllConId() {
+        try {
+            const result = await usersMongo.findAll();
+            if (result.length === 0) return ("No se encontraron usuarios");
+            const usersViewDTO = result.map(user => new UsersViewID(user));
+            return usersViewDTO;
         } catch (error) {
             throw error;
         }
@@ -19,6 +31,7 @@ class UsersService {
     async findById(id) {
         try {
             const result = await usersMongo.findById(id);
+            if (!result) return ("Usuario no encontrado");
             return result;
         } catch (error) {
             throw error;
@@ -53,9 +66,45 @@ class UsersService {
     async delete(id) {
         try {
             const result = await usersMongo.delete(id);
+            if (!result) return ("Usuario no encontrado");
             return result;
         } catch (error) {
-            return error;
+            throw error;
+        }
+    }
+
+    // Endpoint para eliminar usuarios inactivos
+    async deleteIfInactive() {
+        try {
+            // Elimina los usuarios inactivos utilizando la fecha de MongoDB
+            const query = {
+                $expr: {
+                    $lt: [
+                        "$last_connection",
+                        {
+                            $subtract: [
+                                "$$NOW",
+                                1000 * 60 * 60 * 24 * 2 // 2 días en milisegundos
+                            ]
+                        }
+                    ]
+                }
+            }
+            const userInactive = await usersMongo.findUserInactive(query)
+
+            // Enviar correos electrónicos
+            const emailPromises = userInactive.map(user => {
+                const emailText = `Hola ${user.name}, tu cuenta ha sido eliminada por inactividad de más de dos días.`;
+                return emailService.sendEmail(user.email, 'Cuenta eliminada por inactividad', emailText);
+            });
+
+            await Promise.all(emailPromises);
+
+            //Borrar
+            const result = await usersMongo.deleteMany(query)
+            return result
+        } catch (error) {
+            throw error;
         }
     }
 
@@ -200,7 +249,16 @@ class UsersService {
 
     async updateUserStatus(uid, status) {
         try {
-            const result = await usersMongo.update( uid, { statusDocuments: status });
+            const result = await usersMongo.update(uid, { statusDocuments: status });
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async findByCartId(cid) {
+        try {
+            const result = await usersMongo.findByField('cart', cid);
             return result;
         } catch (error) {
             return error;

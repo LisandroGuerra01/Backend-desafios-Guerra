@@ -41,7 +41,7 @@ router.get('/products/:page', jwtAuthCookie, async (req, res) => {
         code,
         stock,
         category,
-        thumfbnail
+        thumbnail
     })
 })
 

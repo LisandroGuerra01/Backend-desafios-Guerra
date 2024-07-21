@@ -1,0 +1,41 @@
+<h1>Lista de Usuarios</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>ID</th>
+            <th>Rol</th>
+            <th>Acción</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.id}}</td>
+            <td>
+                <select name="role" form="roleForm-{{this.id}}">
+                    <option value="user" {{#if (eq this.role 'user' )}}selected{{/if}}>User</option>
+                    <option value="premium" {{#if (eq this.role 'premium' )}}selected{{/if}}>Premium</option>
+                    <option value="admin" {{#if (eq this.role 'admin' )}}selected{{/if}}>Admin</option>
+                </select>
+            </td>
+            <td>
+                <form class="roleForm" id="roleForm-{{this.id}}" action="/api/users/update-role" method="POST">
+                    <input type="hidden" name="userId" value="{{this.id}}">
+                    <button type="submit">Actualizar Rol</button>
+                </form>
+            </td>
+            <td>
+                <form class="deleteForm" id="deleteForm-{{this.id}}" action="/api/users/{{this.id}}" method="DELETE">
+                    <input type="hidden" name="userId" value="{{this.id}}">
+                    <button type="click">X</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

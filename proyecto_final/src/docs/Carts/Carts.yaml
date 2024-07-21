@@ -265,32 +265,6 @@ paths:
                 $ref: '#/components/schemas/Carts'
         "500":
           description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
-    delete:
-      summary: Elimina todos los productos del carrito por su ID
-      tags:
-        - Carts
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID del carrito
-          schema:
-            $type: String
-      responses:
-        "200":
-          description: Carrito vaciado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cart'
-        "400":
-          description: Error en la peticion
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Carts'
-        "500":
-          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la base de datos
   /api/purchase:
     post:
       summary: Realiza una compra

@@ -1,4 +1,6 @@
+import mongoose from "mongoose";
 import usersService from "../services/users.service.js";
+
 
 class UsersController {
     async findAllUsers(req, res) {
@@ -37,12 +39,33 @@ class UsersController {
         }
     }
 
-    async deleteUsers(req, res) {
+    async updateRoleUsers(req, res) {
+        try {
+            const { userId, role } = req.body;
+            const objectId = new mongoose.Types.ObjectId(userId);
+            const result = await usersService.update(objectId, { role });
+            res.status(200).json(result);
+        } catch (error) {
+            console.log(error)
+            res.status(400).json(error);
+        }
+    }
+
+    async deleteUsersByAdmin(req, res) {
         try {
             const result = await usersService.delete(req.params.id);
             res.status(200).json(result);
         } catch (error) {
             res.status(400).json(error);
+        }
+    }
+
+    async deleteUsersInactive(req, res) {
+        try {
+            const result = await usersService.deleteIfInactive(req.params.id);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(500).json(error);
         }
     }
 

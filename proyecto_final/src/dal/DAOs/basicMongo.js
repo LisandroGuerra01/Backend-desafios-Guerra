@@ -42,6 +42,9 @@ export default class BasicMongo {
     async delete(id) {
         try {
             const result = await this.model.findByIdAndDelete(id);
+            if (!result) {
+                throw new Error('Usuario no encontrado');
+            }
             return result;
         } catch (error) {
             return error;
