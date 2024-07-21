@@ -1,8 +1,8 @@
 import { Router } from "express";
 import userService from "../services/users.service.js"
-// import productsService from "../services/products.service.js";
+import productsService from "../services/products.service.js";
 import cartsService from "../services/carts.service.js";
-import { verifyTokenAdmin, isLogged } from "../middlewares/auth.middleware.js";
+import { verifyTokenAdmin } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -48,19 +48,12 @@ router.get('/purchase', (req, res) => {
 })
 
 //Endpoint para ver todos los productos si se está logueado
-// router.get('/products', jwtAuthCookie, async (req, res) => {
-//     const { first_name, last_name, email, age, role } = req.user;
-//     const productManager = new ProductManager();
-//     const products = await productManager.getProducts();
-//     res.render("products", {
-//         products,
-//         first_name,
-//         last_name,
-//         email,
-//         age,
-//         role,
-//     })
-// })
+router.get('/products', async (req, res) => {
+    const products = await productsService.findAll();
+    res.render("products", {
+        products
+    })
+})
 
 //Endpoint para ver todos los productos con paginación
 // router.get('/products/page/:page', isLogged, async (req, res) => {
