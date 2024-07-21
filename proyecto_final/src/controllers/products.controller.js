@@ -5,9 +5,8 @@ import { ErrorName, ErrorMessage, ErrorCause } from '../utils/error.enum.js';
 class ProductsController {
     async findAllProducts(req, res) {
         try {
-            const { limit, page, sort, query } = req.body;
-            const allProducts = await productsService.findAll(limit, page, sort, query);
-            res.status(200).send({ status: "success", payload: allProducts.products, info: allProducts.info });
+            const result = await productsService.findAll();
+            res.status(200).json(result);
         } catch (error) {
             res.status(400).json(error);
         }

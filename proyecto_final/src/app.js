@@ -63,7 +63,7 @@ cron.schedule('29 1 * * *', async () => {
     log.info('Usuarios inactivos eliminados');
 });
 
-const PORT = config.port;
+const PORT = process.env.PORT;
 const ENV = config.node_env;
 
 app.listen(PORT, () => {
